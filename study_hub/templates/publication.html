@@ -1,0 +1,143 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<style>
+  .publication_content p,
+  .publication_content textarea {
+    line-height: 1.85em;
+    font-size: calc(12.5pt + .3vw);
+    letter-spacing: .6px;
+  }
+
+  .edit:hover {
+    border-color: #293A80;
+  }
+
+  .delete:hover {
+    border-color: #C84B31;
+  }
+
+  input,
+  textarea {
+    border-radius: 0.5rem;
+    background-color: inherit;
+    border-style: none;
+    outline-style: none;
+    transition: ease .25s;
+    border: solid 1px #2228311e;
+  }
+
+  input:focus,
+  textarea:focus {
+    box-shadow: 0 0 12px 3px #0d6dfdb9;
+  }
+
+  textarea {
+    resize: none;
+    min-height: 85vh;
+  }
+
+  .errorlist {
+    margin: auto;
+    width: fit-content;
+    color: red;
+  }
+</style>
+{% endblock stylesheet %}
+
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-4 py-2 px-4 bg-dark text-light rounded">
+  {% if form %}
+  Publicación Nueva
+  {% else %}
+  {{title}}
+  {% endif %}
+</h1>
+
+<div class="container d-flex justify-content-between">
+  <a class="icon-link icon-link-hover link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+    style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0)"
+    href="{% url 'apuntes:publications' subject=title id=id %}">
+    <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+    Lista de publicaciones
+  </a>
+  {% if form %}
+  <span class="text-center fs-4 fw-lighter">
+    {{title}}
+  </span>
+  {% endif %}
+</div>
+{% endblock header %}
+
+
+{% block content %}
+<div style="width: 96%;" class="shadow rounded mb-5 mx-auto py-4 px-2
+{% if delete %} bg-danger-subtle{% else %} bg-light {% endif %}">
+
+
+  {% if form %}
+  {% include 'partials/publication_form.html' %}
+
+  {% else %}
+
+  {% if delete %}
+  <form action="" method="post" style="background-color: rgba(255, 0, 0, 0.099);"
+    class="container w-75 text-center mt-2 mb-5 rounded p-3 border border-danger">
+    {% csrf_token %}
+    <p class="text-danger fw-medium fs-4">¿Seguro que desea eliminar la publicación?</p>
+
+    <div class="container my-3">
+      <a href="{% url 'apuntes:publications' subject=title id=id %}" class="btn btn-secondary">Cancelar</a>
+      <input type="submit" value="Eliminar" class="ms-2 btn btn-danger">
+    </div>
+
+    <small class="text-danger">No podra ser recuperada!</small>
+  </form>
+  {% endif %}
+
+  <div class="publication_header container-fluid">
+    <h2 class="text-center">{{ publication.title }}</h2>
+    <h4 class="mt-4">{{publication.sub_title}}</h4>
+  </div>
+
+  <div class="publication_content px-2 my-4">
+
+    {% if publication.image %}
+    <img src="">
+    {% endif %}
+
+    <p>{{ publication.content }}</p>
+  </div>
+
+  <div class="publication_footer mt-3 container-fluid text-end">
+    <small class="fw-lighter">{{ publication.publication_date }}</small>
+  </div>
+  {% endif %}
+
+
+</div>
+
+
+{% if form == null %}
+<div class="container my-5 d-flex align-items-middle justify-content-between">
+  <a class="btn edit fw-medium" style="color:#293A80"
+    href="{% url 'apuntes:publication_update' subject=title id=id pk=publication.id %}">
+    <img class="bi" alt="icon-edit" aria-hidden="true" src="{%static '/images/edit.svg'%}">
+    Editar
+  </a>
+
+
+  <a class="btn delete fw-medium text-danger"
+    href="{% url 'apuntes:publication_delete' subject=title id=id pk=publication.id %}">
+    <img class="bi" alt="icon-delete" aria-hidden="true" src="{%static '/images/delete.svg'%}">
+    Borrar
+  </a>
+</div>
+
+{% endif %}
+
+
+
+{% endblock %}

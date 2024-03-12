@@ -1,0 +1,105 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+  {{title}}
+</h1>
+
+<div class="container text-center d-flex justify-content-evenly">
+  <p class="fw-light"> Código de materia: <strong> {{subject.code}}</strong>
+  </p>
+  {% if subject.description %}
+  <span>-</span>
+  <p class="small fw-light"> {{subject.description}}</p>
+  {% endif %}
+</div>
+
+<div class="container d-flex justify-content-between">
+  <a class="icon-link icon-link-hover link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+    style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="{% url 'apuntes:hub' %}">
+    <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+    Volver
+  </a>
+
+  <a class="icon-link link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+    href="{% url 'apuntes:publication_create' id=subject.id subject=title %}">
+
+    <img class="bi fs-4" alt="add-icon" aria-hidden="true" src="{%static '/images/add.svg'%}">
+    Agregar Publicación
+  </a>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+<h2 class="text-center">Lista de publicaciones</h2>
+<div class="container my-4 table-responsive">
+
+  <table class="table align-middle table-primary table-striped table-hover table-bordered text-center">
+    <thead>
+      <tr class="table-dark">
+        <th scope="col" class="col-3">Título</th>
+        <th scope="col" class="col-3">Subtítulo</th>
+        <th scope="col" class="col-3">Fecha</th>
+        <th scope="col" class="col-1"> </th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      {% if publications|length >= 1 %}
+      {% for publication in publications%}
+      <tr title="Abrir publicación" class="publication-row" data-publication-id="{{ publication.id }}"
+        style="cursor: pointer;">
+        <th scope="row" class="col-3">{{publication.title}}</th>
+        <th class="col-3 fw-medium">{{publication.sub_title}}</th>
+        <th class="col-3 small fw-lighter">{{publication.publication_date}}</th>
+        <th class="col-1">
+          <a href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
+            <img alt="edit-icon" class="ms-1" src="{%static '/images/edit.svg'%}">
+          </a>
+          <a href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
+            <img alt="delete-icon" class="ms-1" src="{%static '/images/delete.svg'%}">
+          </a>
+        </th>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+
+    <tfoot>
+      <caption class="text-center  my-3">
+        {% if publications|length >= 1 %}
+        <small>Clickea en la publicación que deseas ver!</small>
+        {% else %}
+        No tiene publicaciones creadas...
+        {% endif %}
+      </caption>
+    </tfoot>
+  </table>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const publicationRows = document.querySelectorAll('.publication-row');
+    publicationRows.forEach(row => {
+      row.addEventListener('click', () => {
+        const publicationId = row.getAttribute('data-publication-id');
+        const url = window.location.href.replace("publicaciones", `publicacion/${publicationId}`)
+
+        event.ctrlKey || event.metaKey
+          ? window.open(url, '_blank')
+          : window.location.href = url
+      });
+    });
+  });
+</script>
+{% endblock scripts %}

@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+
+
+<h1>404 Error: Página no encontrada</h1>
+<p>Lo sentimos, la página que buscas no existe.</p>
+
+{% if custom_message %}
+<p>{{ custom_message }}</p>
+{% endif %}
+
+{% if request.path|length > 1 %}
+<p>La URL solicitada fue: {{ request.path }}</p>
+{% endif %}
+
+{% if exception %}
+<p>Error: {{ exception }}</p>
+{% endif %}
+
+
+{% endblock content %}

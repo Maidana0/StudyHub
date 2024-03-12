@@ -1,0 +1,11 @@
+<div hidden class="form_container container-fluid text-center my-3 bg-light bg-gradient p-4 rounded-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <span class="fs-4 text-center mx-auto">Agregar Materia</span>
+        <button type="button" class="btn_close_form_subject btn btn-danger py-1">X</button>
+    </div>
+    <form id="subject_form" method="POST" action="{% url 'apuntes:add_subject' %}" class="mx-auto">
+        {% csrf_token %}
+        {{subjectForm}}
+        <input type="submit" class="btn btn-primary m-auto" value="Agregar">
+    </form>
+</div>

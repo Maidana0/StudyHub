@@ -1,0 +1,54 @@
+<form method="POST" action="" style="width: 100%;height: auto;">
+  {% csrf_token %}
+
+  <div class="publication_header container-fluid">
+
+    <div class="text-center">
+      <input class="fs-2 fw-medium text-center w-100 mb-2 p-2" autocomplete="off" id="id_title" type="text"
+        placeholder="Escriba su título principal..." name="title" maxlength="60"
+        value="{% if form.instance.title %}{{ form.instance.title }}{% endif %}">
+      {{form.title.errors}}
+    </div>
+
+    <input class="fs-4 fw-medium w-100 my-2 px-3 py-2" type="text" placeholder="Subtítulo..." name="sub_title"
+      maxlength="80" id="id_sub_title" autocomplete="off"
+      value="{% if form.instance.sub_title %}{{ form.instance.sub_title }}{% endif %}">
+
+    {{form.sub_title.errors}}
+
+  </div>
+
+  <div class="publication_content px-2 mt-2 mb-5">
+
+    <div class="my-2 me-2" style="min-width: 325px; max-width: 580px;">
+      {% if form.instance.image %}
+      <p>Imagen actual en la publicación:</p>
+      <img src="{{ form.instance.image.url }}" alt="Imagen actual">
+      {% endif %}
+
+      {{ form.image.label_tag }}
+      <input class="form-control mt-2" type="file" name="image" accept="image/*" id="id_image">
+      {{ form.image.errors }}
+    </div>
+
+    <div class="container">
+      <textarea class="w-100 p-4 my-3" placeholder="Escriba su publicación aqui!" name="content"
+        id="id_content">{% if form.instance.content %}{{ form.instance.content }}{% endif %}</textarea>
+      {{ form.content.errors }}
+    </div>
+
+  </div>
+
+  <div class="container d-flex gap-2 justify-content-end">
+    <label for="id_subject" class="my-auto text-nowrap">Materia:</label>
+    <select name="subject" class="form-select disabled" style="width:auto;" id="id_subject">
+      <option selected value="{{id}}">{{title}}</option>
+    </select>
+  </div>
+  {{form.subject.errors}}
+
+  <div class="text-center my-3">
+    <input class="btn btn-primary" type="submit"
+      value="{% if form.instance.content %}Actualizar{% else %}Publicar{% endif %}">
+  </div>
+</form>

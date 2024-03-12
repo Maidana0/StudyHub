@@ -1,0 +1,90 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+*::-webkit-scrollbar {
+    width: 5px;
+    scroll-behavior: smooth;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(var(--bs-dark-rgb));
+}
+
+html,
+body {
+    max-width: 100vw;
+    min-height: 100vh;
+}
+
+body {
+    background-color: #F8F6F4;
+}
+
+.nav-item {
+    padding: 5px 10px;
+}
+
+#search {
+    background: rgba(155, 155, 155, 0.281);
+}
+
+#search:focus {
+    box-shadow: 0 0 3px 1px #ffffff;
+}
+
+@media (min-width:768px) {
+    .dropdown {
+        margin-left: 2rem;
+    }
+
+    #dropdown-menu {
+        position: absolute;
+    }
+}
+
+
+/* ANIMATIONS */
+/*from Animista */
+@-webkit-keyframes swing-in-top-fwd {
+    0% {
+        -webkit-transform: rotateX(-100deg);
+        transform: rotateX(-100deg);
+        -webkit-transform-origin: top;
+        transform-origin: top;
+        opacity: 0
+    }
+
+    100% {
+        -webkit-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        -webkit-transform-origin: top;
+        transform-origin: top;
+        opacity: 1
+    }
+}
+
+@keyframes swing-in-top-fwd {
+    0% {
+        -webkit-transform: rotateX(-100deg);
+        transform: rotateX(-100deg);
+        -webkit-transform-origin: top;
+        transform-origin: top;
+        opacity: 0
+    }
+
+    100% {
+        -webkit-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        -webkit-transform-origin: top;
+        transform-origin: top;
+        opacity: 1
+    }
+}
+
+.animation-swing {
+    -webkit-animation: swing-in-top-fwd .5s cubic-bezier(.175, .885, .32, 1.275);
+    animation: swing-in-top-fwd .5s cubic-bezier(.175, .885, .32, 1.275)
+}

@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static '/styles/pages/study_hub.css' %}">
+{% endblock stylesheet %}
+
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+  {{title}}
+</h1>
+{% endblock header %}
+
+
+
+{% block content %}
+<form action="" method="get" class="container form-group d-flex mb-4">
+  <select type="search" class="py-2 me-3  text-truncate form-select" name="career" id="select_career">
+    <option value="">Ver todas las carreras</option>
+    {% for career in careers %}
+    <option value="{{ career.id }}">{{ career.title }} </option>
+    {% endfor %}
+  </select>
+  <input type="submit" class="btn btn-primary" value="Buscar">
+</form>
+
+<div id="contain" class="container mb-5">
+
+  {% if career_filter %}
+  {% for career in career_filter %}
+  <div class="mt-2 mb-4 shadow rounded-4">
+
+    <div id="career-{{career.id}}" class="d-flex container py-2 bg-primary bg-gradient rounded-top-4 rounded-bottom-0">
+      <h2 class="my-auto me-auto text-light text-truncate">{{ career.title }}</h2>
+      <img src="{% static 'images/expand_more.svg' %}" alt="show">
+    </div>
+
+    <div hidden id="subjects-{{career.id}}"
+      class="animation-swing bg-dark p-3 m-auto rounded-top-0 rounded-bottom-4 row row-cols-1 row-cols-sm-2 text-center">
+      {% for subject in subjects %}
+      {% if subject.career == career %}
+      <div class="col my-2">
+        <a style="width:80%" title="{{ subject.name }}" class="py-3 text-truncate btn btn-outline-light container"
+          href="{% url 'apuntes:publications' id=subject.id subject=subject.name %}">
+          {{ subject.name }}
+        </a>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+      <div class="col-sm-7 mx-auto my-3 container">
+        <button type="button" id="btn_add_subject" class="py-2 px-4 text-truncate btn btn-light">
+          Agregar materia
+        </button>
+      </div>
+
+      {% include 'partials/subject_form.html' %}
+
+    </div>
+  </div>
+  {% endfor %}
+
+  {% else %}
+  {% for career in careers %}
+  <div class="mt-2 mb-4 shadow rounded-4">
+
+    <div id="career-{{career.id}}" class="d-flex container py-2 bg-primary bg-gradient rounded-top-4 rounded-bottom-0">
+      <h2 class="my-auto me-auto text-light text-truncate">{{ career.title }}</h2>
+      <img src="{% static 'images/expand_more.svg' %}" alt="show">
+    </div>
+
+    <div hidden id="subjects-{{career.id}}"
+      class="animation-swing bg-dark p-3 m-auto rounded-top-0 rounded-bottom-4 row row-cols-1 row-cols-sm-2 text-center">
+      {% for subject in subjects %}
+      {% if subject.career == career %}
+      <div class="col my-2">
+        <a style="width:80%" title="{{ subject.name }}" class="py-3 text-truncate btn btn-outline-light container"
+          href="{% url 'apuntes:publications' id=subject.id subject=subject.name %}">
+          {{ subject.name }}
+        </a>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+      <div class="col-sm-7 mx-auto my-3 container">
+        <button type="button" id="btn_add_subject" class="py-2 px-4 text-truncate btn btn-light">
+          Agregar materia
+        </button>
+      </div>
+
+      {% include 'partials/subject_form.html' %}
+
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+
+
+
+
+  <div class="my-5 container text-center">
+    <button id="open_modal" type="button" class="btn btn-lg btn-dark">
+      Agregar otra carrera
+    </button>
+  </div>
+</div>
+
+{% include 'partials/career_form.html' %}
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/pages/study_hub.js' %}"></script>
+{% endblock scripts %}
