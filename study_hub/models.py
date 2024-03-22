@@ -1,4 +1,3 @@
-from django.db import models
 from django.db.models import (
     Model,
     CharField,
@@ -11,6 +10,7 @@ from django.db.models import (
 )
 from django.db.models.fields.files import ImageField
 from django.core.validators import MaxValueValidator, MinValueValidator
+from tinymce import models as tinymce_models
 
 
 # Create your models here.
@@ -46,13 +46,13 @@ class Subject(Model):
 class Publication(Model):
     title = CharField(max_length=60, blank=False)
     sub_title = CharField(max_length=80, blank=False)
-    content = TextField(blank=False)
+    content = tinymce_models.HTMLField()
     publication_date = DateTimeField(auto_now_add=True)
     subject = ForeignKey(Subject, on_delete=CASCADE, blank=False)
 
     image = ImageField(
         verbose_name="Imagen para tu publicación",
-        upload_to="study/publication/",
+        upload_to="publication/",
         blank=True,
     )
 

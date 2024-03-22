@@ -1,0 +1,35 @@
+{% load static %}
+
+
+<form method="post" class="text-center container my-5" style="width: 330px;">
+
+    {% csrf_token %}
+
+    <input class="form-control mb-2" required autocomplete="username" autofocus type="text" name="username"
+        placeholder="{{form.username.label}}" id="id_username">
+    <input class="form-control mb-2" required autocomplete="current-password" type="password" name="password"
+        placeholder="{{form.password.label}}" id="id_password">
+
+    <div class="my-3">
+        <label class="form-check-label small text-secondary me-2" for="id_remember_me">Recordarme</label>
+        <input class="form-check-input" type="checkbox" name="remember_me" id="id_remember_me" checked>
+    </div>
+
+    <input type="submit" value="Iniciar Sesión" class="btn btn-primary">
+
+    <div class="text-center my-3 d-flex flex-column gap-3">
+        <a class="link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="{% url 'account:register' %}">
+            Crear cuenta nueva
+        </a>
+        <a class="small link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="{% url 'account:password_reset' %}">
+            ¿Olvidaste tu contraseña?
+        </a>
+    </div>
+
+    {% if messages %}{% for message in messages%}
+    <div class="alert alert-danger" role="alert">{{message}}</div>
+    {% endfor %} {% endif %}
+
+</form>

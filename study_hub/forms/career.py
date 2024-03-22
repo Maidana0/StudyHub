@@ -1,8 +1,13 @@
 from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
+from study_hub.models import Career
 
 
-class CareerForm(forms.Form):
+class CareerForm(forms.ModelForm):
+    class Meta:
+        model = Career
+        fields = ["title", "number_of_subjects", "university", "duration"]
+
     title = forms.CharField(
         max_length=40,
         required=True,

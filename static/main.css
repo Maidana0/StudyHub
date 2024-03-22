@@ -21,8 +21,47 @@ body {
 
 body {
     background-color: #F8F6F4;
+    /* background-color: #222831; */
+    background-image: url("images/gohan.png");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: fixed;
 }
 
+nav {
+    padding: 0 !important;
+}
+
+.image-logo {
+    width: auto;
+    height: 60px;
+}
+
+main {
+    margin-bottom: 4rem;
+}
+
+/* .bg-dark {
+    background-color: rgba(3, 3, 3, 0.95) !important
+} */
+
+.custom-link {
+    text-transform: uppercase;
+    background-color: #c0392b;
+    padding: 8px 12px !important;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    user-select: none;
+    cursor: pointer;
+    box-shadow: 3px 8px 25px rgba(0, 0, 0, 0.35);
+    border-radius: 3px;
+}
+
+.bi {
+    width: auto !important;
+    height: auto !important;
+}
 .nav-item {
     padding: 5px 10px;
 }
@@ -33,6 +72,19 @@ body {
 
 #search:focus {
     box-shadow: 0 0 3px 1px #ffffff;
+}
+
+.form-floating .form-control:hover{
+    border: var(--bs-border-width) solid #ff1900; 
+}
+
+.form-floating .form-control:focus {
+    border: var(--bs-border-width) solid #c0392b; 
+    box-shadow: 0 0 10px 4px #c0392b;
+}
+
+@media (max-width:768px) {
+
 }
 
 @media (min-width:768px) {
@@ -87,4 +139,8 @@ body {
 .animation-swing {
     -webkit-animation: swing-in-top-fwd .5s cubic-bezier(.175, .885, .32, 1.275);
     animation: swing-in-top-fwd .5s cubic-bezier(.175, .885, .32, 1.275)
+}
+
+#logout:hover {
+    background-color: #462222;
 }

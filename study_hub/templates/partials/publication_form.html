@@ -1,5 +1,7 @@
+{% load static %}
 <form method="POST" action="" style="width: 100%;height: auto;">
   {% csrf_token %}
+  {{ form.media }}
 
   <div class="publication_header container-fluid">
 
@@ -19,23 +21,9 @@
   </div>
 
   <div class="publication_content px-2 mt-2 mb-5">
-
-    <div class="my-2 me-2" style="min-width: 325px; max-width: 580px;">
-      {% if form.instance.image %}
-      <p>Imagen actual en la publicación:</p>
-      <img src="{{ form.instance.image.url }}" alt="Imagen actual">
-      {% endif %}
-
-      {{ form.image.label_tag }}
-      <input class="form-control mt-2" type="file" name="image" accept="image/*" id="id_image">
-      {{ form.image.errors }}
-    </div>
-
-    <div class="container">
-      <textarea class="w-100 p-4 my-3" placeholder="Escriba su publicación aqui!" name="content"
-        id="id_content">{% if form.instance.content %}{{ form.instance.content }}{% endif %}</textarea>
-      {{ form.content.errors }}
-    </div>
+    {{form.content}}
+    {{ form.content.errors }}
+  </div>
 
   </div>
 
@@ -48,6 +36,11 @@
   {{form.subject.errors}}
 
   <div class="text-center my-3">
+    {% if form.instance.content %}
+    <a class="btn btn-danger me-2" href="{% url 'apuntes:publications' subject=title id=id %}">
+      Cancelar
+    </a>
+    {% endif %}
     <input class="btn btn-primary" type="submit"
       value="{% if form.instance.content %}Actualizar{% else %}Publicar{% endif %}">
   </div>

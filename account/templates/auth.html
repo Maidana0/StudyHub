@@ -1,0 +1,139 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block stylesheet %}<style>
+    #profile {
+        width: 70%;
+        margin: 0 auto 4rem;
+    }
+    
+    .errorlist{
+        width: fit-content;
+        margin: 15px auto;
+    }
+
+    form input {
+        height: 3rem;
+    }
+
+    form input[type="submit"],
+    form input[type="button"] {
+        height: auto;
+    }
+
+    .input-group .form-control {
+        border-radius: 0 0.375rem 0.375rem 0 !important
+    }
+
+    .input-group-text label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    #avatar_label:active {
+        transform: scale(0.9);
+    }
+
+    @media (max-width:550px) {
+        #profile {
+            width: 100%;
+        }
+
+        .input-group-text {
+            width: 90px;
+        }
+    }
+</style>{% endblock stylesheet %}
+
+
+{% block header %}
+<h1 class="text-center w-75 mx-auto my-0 p-2 bg-dark text-light rounded">
+    {{title}}
+</h1>
+{% endblock header %}
+
+
+
+{% block content %}
+
+
+{% if site == "register" %}
+{% include 'partials/register.html' %}
+
+
+{% elif site == "login" %}
+{% include 'partials/login.html' %}
+
+
+{% elif site == "profile" %}
+{% include 'partials/profile.html' %}
+
+
+{% elif site == "change_password" %}
+{% include 'partials/change_password.html' %}
+
+{%endif%}
+
+
+
+
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script>
+    if (document.getElementById("profile")) {
+        function getElement(id) {
+            const element = document.getElementById(id)
+            element.disabled = true
+            const value = element.value
+            return { element, value }
+        }
+        function change(i) {
+            i.value == "Cancelar"
+                ? (i.value = "Editar perfil", i.classList.replace("btn-outline-danger", "btn-outline-primary"))
+                : (i.value = "Cancelar", i.classList.replace("btn-outline-primary", "btn-outline-danger"))
+        }
+
+        const first_name = getElement("id_first_name")
+        const last_name = getElement("id_last_name")
+        const email = getElement("id_email")
+        const edit_profile = document.getElementById("edit_profile")
+
+        edit_profile.addEventListener("click", e => {
+            if (first_name.element.disabled) {
+                const inputs = [first_name, last_name, email]
+                inputs.forEach(object => object.element.disabled = false)
+                change(edit_profile)
+                return
+            }
+            const inputs = [first_name, last_name, email]
+            inputs.forEach(object => {
+                object.element.disabled = true
+                object.element.value = object.value
+            })
+            change(edit_profile)
+
+        })
+
+        const avatar_input = document.getElementById("id_avatar")
+        const avatar_img = document.getElementById("avatar_img")
+
+        avatar_input.addEventListener('change', e => {
+            if (e.target.files[0]) {
+                const reader = new FileReader()
+                reader.onload = event => {
+                    avatar_img.src = event.target.result
+                }
+                reader.readAsDataURL(e.target.files[0])
+            }
+        })
+    }
+</script>
+{% endblock scripts %}

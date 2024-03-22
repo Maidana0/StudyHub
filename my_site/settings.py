@@ -30,13 +30,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # THIRD PARTY APPS
+    "tinymce",
+    # DJANGO APPS
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "home",
+    # CUSTOM APPS
+    "pages",
     "study_hub",
     "account",
 ]
@@ -52,7 +56,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "my_site.urls"
-# POR SI NO ME ENCUENTRA LOS TEMPLATES os.path.join(BASE_DIR, "home/templates")
+# POR SI NO ME ENCUENTRA LOS TEMPLATES os.path.join(BASE_DIR, "paages/templates")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -118,18 +122,44 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
-STATIC_URL = "static/"
-MEDIA_URL = "media/"
-
-MEDIA_ROOT = [os.path.join(BASE_DIR, "media")]
-
+STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+# import enchant
+# enchant.dict_exists('es')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
+TINYMCE_DEFAULT_CONFIG = {
+    "height": "480px",
+    "width": "100%",
+    "menubar": "file edit view insert format tools table help",
+    "plugins": "advlist autolink lists link image charmap print preview searchreplace visualblocks"
+    "fullscreen insertdatetime media table paste code help wordcount emoticons ",
+    "toolbar": "undo redo | bold italic underline strikethrough |"
+    "pagebreak |forecolor backcolor casechange  permanentpen formatpainter removeformat | charmap emoticons |"
+    "fontselect fontsizeselect formatselect"
+    "fullscreen  preview save print | insertfile image media pageembed template link codesample | "
+    "| alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist |",
+    "custom_undo_redo_levels": 10,
+    # "skin": "oxide-dark",
+    # "content_css": "dark",
+}
+
+TINYMCE_SPELLCHECKER = True
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+LOGIN_URL = "/cuenta/iniciar-sesion"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "email(private)"
+EMAIL_HOST_PASSWORD = "password(private)"

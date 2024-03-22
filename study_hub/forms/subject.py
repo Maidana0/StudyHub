@@ -1,9 +1,12 @@
 from django import forms
 
-from study_hub.models import Career
+from study_hub.models import Career, Subject
 
 
-class SubjectForm(forms.Form):
+class SubjectForm(forms.ModelForm):
+    class Meta:
+        model = Subject
+        fields = ["name", "code", "description", "career"]
 
     name = forms.CharField(
         max_length=40,

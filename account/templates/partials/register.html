@@ -1,0 +1,76 @@
+<form action="" method="POST" class="text-center mt-2 mb-5">
+    {% csrf_token %}
+
+
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}" role="alert">
+        {{message}}
+    </div>
+    {% endfor %} {% endif %}
+
+
+
+    <h3 class="mb-4">Datos Personales</h3>
+    <div class="container mb-4">
+        <div class="d-flex  justify-content-between">
+
+            <div class="form-floating mb-2" style="width: 49%;">
+                {{ form.first_name }}
+                {{ form.first_name.label_tag }}
+                <span class="small text-danger mt-1"> {{ form.first_name.errors }} </span>
+            </div>
+
+            <div class="form-floating" style="width: 49%;">
+                {{ form.last_name }}
+                {{ form.last_name.label_tag }}
+                <span class="small text-danger mt-1"> {{ form.last_name.errors }} </span>
+            </div>
+
+        </div>
+
+        <div class="form-floating mb-2">
+            {{ form.email }}
+            {{ form.email.label_tag }}
+            <span class="small text-danger mt-1"> {{ form.email.errors }} </span>
+        </div>
+    </div>
+
+
+    <h3 class="mb-4">Datos de Ingreso</h3>
+    <div class="container mb-4">
+        <div class="form-floating">
+            <input type="text" class="form-control mb-2 {% if form.username.errors %}is-invalid{% endif %}"
+                maxlength="150" autocomplete="off" name="username" id="id_username" placeholder=""
+                value="{% if form.instance.username %}{{ form.instance.username }}{% endif %}">
+            {{form.username.label_tag}}
+            <span class="small text-danger"> {{form.username.errors}} </span>
+        </div>
+
+        <div class="form-floating">
+            <input type="password"
+                class="form-control mb-2 {% if form.password1.errors or form.password2.errors %}is-invalid{% endif %}"
+                name="password1" autocomplete="new-password" id="id_password1" placeholder="password">
+            {{form.password1.label_tag}}
+            <span class="small text-danger"> {{form.password1.errors}} </span>
+        </div>
+
+        <div class="form-floating">
+            <input
+                class="form-control mb-2 {% if form.password1.errors or form.password2.errors %}is-invalid{% endif %}"
+                type="password" name="password2" autocomplete="new-password" id="id_password2" placeholder="password">
+            {{form.password2.label_tag}}
+            <span class="small text-danger"> {{form.password2.errors}} </span>
+        </div>
+    </div>
+
+
+    <input type="submit" value="Registrarme" class="btn btn-primary mt-2">
+
+
+    <div class="container text-center my-3">
+        <a class="link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="{% url 'account:login' %}">
+            Iniciar Sesión
+        </a>
+    </div>
+</form>

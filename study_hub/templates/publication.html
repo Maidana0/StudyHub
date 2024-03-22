@@ -33,11 +33,6 @@
     box-shadow: 0 0 12px 3px #0d6dfdb9;
   }
 
-  textarea {
-    resize: none;
-    min-height: 85vh;
-  }
-
   .errorlist {
     margin: auto;
     width: fit-content;
@@ -49,32 +44,22 @@
 
 {% block header %}
 <h1 class="text-center w-75 m-auto mb-4 py-2 px-4 bg-dark text-light rounded">
-  {% if form %}
-  Publicación Nueva
-  {% else %}
   {{title}}
-  {% endif %}
 </h1>
-
-<div class="container d-flex justify-content-between">
-  <a class="icon-link icon-link-hover link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+<div class="container mb-3">
+  <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
     style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0)"
     href="{% url 'apuntes:publications' subject=title id=id %}">
     <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
     Lista de publicaciones
   </a>
-  {% if form %}
-  <span class="text-center fs-4 fw-lighter">
-    {{title}}
-  </span>
-  {% endif %}
 </div>
 {% endblock header %}
 
 
 {% block content %}
-<div style="width: 96%;" class="shadow rounded mb-5 mx-auto py-4 px-2
-{% if delete %} bg-danger-subtle{% else %} bg-light {% endif %}">
+
+<div style="width: 96%;" class="bg-light shadow rounded mb-5 mx-auto py-4 {% if delete %}bg-danger-subtle{% endif %}">
 
 
   {% if form %}
@@ -83,8 +68,7 @@
   {% else %}
 
   {% if delete %}
-  <form action="" method="post" style="background-color: rgba(255, 0, 0, 0.099);"
-    class="container w-75 text-center mt-2 mb-5 rounded p-3 border border-danger">
+  <form action="" method="post" class="container w-75 text-center mt-2 mb-3 p-3 ">
     {% csrf_token %}
     <p class="text-danger fw-medium fs-4">¿Seguro que desea eliminar la publicación?</p>
 
@@ -93,7 +77,7 @@
       <input type="submit" value="Eliminar" class="ms-2 btn btn-danger">
     </div>
 
-    <small class="text-danger">No podra ser recuperada!</small>
+    <small class="text-danger">No podras recuperarla</small>
   </form>
   {% endif %}
 
@@ -107,8 +91,8 @@
     {% if publication.image %}
     <img src="">
     {% endif %}
+    {{ publication.content|safe }}
 
-    <p>{{ publication.content }}</p>
   </div>
 
   <div class="publication_footer mt-3 container-fluid text-end">
@@ -128,7 +112,6 @@
     Editar
   </a>
 
-
   <a class="btn delete fw-medium text-danger"
     href="{% url 'apuntes:publication_delete' subject=title id=id pk=publication.id %}">
     <img class="bi" alt="icon-delete" aria-hidden="true" src="{%static '/images/delete.svg'%}">
@@ -137,7 +120,12 @@
 </div>
 
 {% endif %}
-
-
-
 {% endblock %}
+
+
+{% block scripts %}
+<script>
+  // const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+</script>
+{% endblock scripts %}

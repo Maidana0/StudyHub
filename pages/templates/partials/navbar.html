@@ -1,0 +1,58 @@
+{% load static %}
+<nav class="navbar navbar-expand-md  navbar-dark bg-dark" data-bs-theme="dark">
+  <div class="container-fluid">
+      <a class="navbar-brand p-0" href="{% url 'home' %}">
+        <img src="{%static 'images/logo.webp'%}" class="image-logo">
+        StudyHub
+      </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'apuntes:hub' %}">Apuntes</a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-capitalize" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            {{user.first_name}}
+          </a>
+
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item py-2" href="{% url 'account:profile'%}">Mi Perfil</a></li>
+            <li><a class="dropdown-item py-2" href="#">Mis Publicaciones</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item py-2" id="logout" href="{%url 'account:logout' %}">Cerrar Sesión</a></li>
+          </ul>
+
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account:login' %}">Iniciar Sesión</a>
+        </li>
+        {% endif %}
+
+
+        <li class="nav-item dropdown" role="search">
+          {% csrf_token %}
+          <input id="search" autocomplete="off" class="form-control nav-link px-3 " type="search"
+            placeholder="Buscar publicación..." aria-label="Search">
+          <ul class="dropdown-menu container position-absolute" id="dropdown">
+
+          </ul>
+        </li>
+
+
+      </ul>
+
+    </div>
+  </div>
+</nav>

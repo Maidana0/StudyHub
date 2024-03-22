@@ -1,14 +1,9 @@
 from django.urls import path
-from .views import (
-    PublicationCreateView,
-    PublicationDeleteView,
-    PublicationDetailView,
-    PublicationUpdateView,
-    PublicationsListView,
-    add_career,
-    add_subject,
-    study,
-)
+from .views.views import study
+from .views.publication_views import *
+from .views.subject_views import *
+from .views.career_views import *
+
 
 app_name = "apuntes"
 
