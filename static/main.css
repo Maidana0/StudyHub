@@ -50,6 +50,7 @@ main {
     text-transform: uppercase;
     background-color: #c0392b;
     padding: 8px 12px !important;
+    height: 40px;
     font-size: 13px;
     letter-spacing: 1.5px;
     user-select: none;
@@ -78,19 +79,18 @@ main {
     border: var(--bs-border-width) solid #ff1900; 
 }
 
-.form-floating .form-control:focus {
+form .form-control:focus {
     border: var(--bs-border-width) solid #c0392b; 
     box-shadow: 0 0 10px 4px #c0392b;
 }
 
 @media (max-width:768px) {
-
+    body {
+        background-size: 65%;
+    }
 }
 
 @media (min-width:768px) {
-    .dropdown {
-        margin-left: 2rem;
-    }
 
     #dropdown-menu {
         position: absolute;

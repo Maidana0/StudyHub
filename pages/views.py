@@ -39,3 +39,9 @@ def searchNavbar(request):
     ]
 
     return JsonResponse({"publications": result_list})
+
+
+@require_GET
+def about_me(request):
+
+    return render(request, "about.html", {})

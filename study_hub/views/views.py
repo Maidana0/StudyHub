@@ -1,14 +1,7 @@
-from django.urls import reverse_lazy
-from django.shortcuts import redirect, render, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404
 from ..forms.subject import SubjectForm
 from ..forms.career import CareerForm
-
 from ..models import Career, Subject
-
-from django.views.decorators.http import require_POST, require_GET
-
-# from django.contrib import messages
 
 
 def get_subject_or_404(id, name):
@@ -16,16 +9,13 @@ def get_subject_or_404(id, name):
 
 
 # INDEX STUDYHUB
-@require_GET
 def study(request):
     careers = Career.objects.all().order_by("university")
     subjects = Subject.objects.all().order_by("code")
-
+    list = careers
     query = request.GET.get("career", None)
-    career_filter = False
-
     if query:
-        career_filter = Career.objects.filter(id=query)
+        careers = Career.objects.filter(id=query)
 
     careerForm = CareerForm()
     subjectForm = SubjectForm()
@@ -35,8 +25,8 @@ def study(request):
         "study.html",
         {
             "title": "Apuntes",
+            "list": list,
             "careers": careers,
-            "career_filter": career_filter,
             "subjects": subjects,
             # FORMS
             "careerForm": careerForm,

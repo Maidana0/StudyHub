@@ -40,9 +40,6 @@
         </div>
     </div>
 
-    {% if messages %} {% for message in messages %}
-    <div class="w-75 mx-auto alert alert-success" role="alert">{{message}}</div>
-    {% endfor %}{% endif %}
 
     <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
         href="{% url 'account:change_password' %}">

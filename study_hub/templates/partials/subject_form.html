@@ -1,11 +1,20 @@
-<div hidden class="form_container container-fluid text-center my-3 bg-light bg-gradient p-4 rounded-4">
+<div {% if not update %} hidden {% endif %}
+    class="form_container container-fluid text-center my-2 bg-light bg-gradient p-3 rounded-4">
+    {% if not update %}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <span class="fs-4 text-center mx-auto">Agregar Materia</span>
         <button type="button" class="btn_close_form_subject btn btn-danger py-1">X</button>
     </div>
-    <form id="subject_form" method="POST" action="{% url 'apuntes:add_subject' %}" class="mx-auto">
+    {% endif %}
+
+    <form id="subject_form" method="POST" class="mx-auto"
+        action="{% if not update %} {% url 'apuntes:add_subject' %} {% endif %}">
         {% csrf_token %}
         {{subjectForm}}
-        <input type="submit" class="btn btn-primary m-auto" value="Agregar">
+        {% if update %}
+        <a href="{% url 'apuntes:hub' %}" class="btn btn-danger mt-2 me-2">Cancelar</a>
+        {% endif %}
+        <input type="submit" class="btn btn-primary mt-2 mx-auto"
+            value="{% if update %}Actualizar{% else %}Agregar{% endif %}">
     </form>
 </div>

@@ -6,7 +6,7 @@ from .forms import CustomRegisterForm, CustomAuthForm
 from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 
 
 from django.contrib.auth.models import User
@@ -15,18 +15,6 @@ from .forms import CustomProfileForm
 
 
 from django.contrib.auth import update_session_auth_hash
-
-
-# DECORADOR ESPECIAL
-
-# def staff_required(login_url=None):
-#     return user_passes_test(lambda u: u.is_staff, login_url=login_url)
-
-
-# @staff_required(login_url="/admin")
-
-
-# Create your views here.
 
 
 def login_request(request):

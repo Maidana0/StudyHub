@@ -1,15 +1,6 @@
 <form action="" method="POST" class="text-center mt-2 mb-5">
     {% csrf_token %}
 
-
-    {% if messages %} {% for message in messages %}
-    <div class="alert alert-{% if message.tags == 'success' %}success{% else %}danger{% endif %}" role="alert">
-        {{message}}
-    </div>
-    {% endfor %} {% endif %}
-
-
-
     <h3 class="mb-4">Datos Personales</h3>
     <div class="container mb-4">
         <div class="d-flex  justify-content-between">

@@ -2,51 +2,14 @@
 {% load static %}
 
 {% block stylesheet %}
-<style>
-  .publication_content p,
-  .publication_content textarea {
-    line-height: 1.85em;
-    font-size: calc(12.5pt + .3vw);
-    letter-spacing: .6px;
-  }
-
-  .edit:hover {
-    border-color: #293A80;
-  }
-
-  .delete:hover {
-    border-color: #C84B31;
-  }
-
-  input,
-  textarea {
-    border-radius: 0.5rem;
-    background-color: inherit;
-    border-style: none;
-    outline-style: none;
-    transition: ease .25s;
-    border: solid 1px #2228311e;
-  }
-
-  input:focus,
-  textarea:focus {
-    box-shadow: 0 0 12px 3px #0d6dfdb9;
-  }
-
-  .errorlist {
-    margin: auto;
-    width: fit-content;
-    color: red;
-  }
-</style>
-{% endblock stylesheet %}
-
+<link rel="stylesheet" href="{% static 'study_hub/styles.css' %}"> {% endblock stylesheet %}
 
 {% block header %}
-<h1 class="text-center w-75 m-auto mb-4 py-2 px-4 bg-dark text-light rounded">
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
   {{title}}
 </h1>
-<div class="container mb-3">
+
+<div class="container d-flex mb-3">
   <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
     style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0)"
     href="{% url 'apuntes:publications' subject=title id=id %}">
@@ -59,7 +22,7 @@
 
 {% block content %}
 
-<div style="width: 96%;" class="bg-light shadow rounded mb-5 mx-auto py-4 {% if delete %}bg-danger-subtle{% endif %}">
+<div style="width: 96%; overflow-x: scroll; hyphens: auto;" class="bg-light text-break shadow rounded mb-5 mx-auto py-4 {% if delete %}bg-danger-subtle{% endif %}">
 
 
   {% if form %}
@@ -123,9 +86,3 @@
 {% endblock %}
 
 
-{% block scripts %}
-<script>
-  // const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-</script>
-{% endblock scripts %}
