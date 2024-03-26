@@ -4,7 +4,7 @@ from ..forms.career import CareerForm
 from ..models import Career, Subject
 
 
-def get_subject_or_404(id, name):
+def get_subject_or_404(id, name=False):
     return get_object_or_404(Subject, pk=id, name=name)
 
 

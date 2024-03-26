@@ -1,5 +1,7 @@
 from django.urls import path
+
 from .views.views import study
+from .views.comment_views import *
 from .views.publication_views import *
 from .views.subject_views import *
 from .views.career_views import *
@@ -27,7 +29,7 @@ urlpatterns = [
         update_subject,
         name="update_subject",
     ),
-    # USANDO CLASESS GENERICAS
+    # CLASS-BASED VIEWS
     path(
         "<str:subject>/<int:id>/publicaciones",
         PublicationsListView.as_view(),
@@ -52,5 +54,19 @@ urlpatterns = [
         "<str:subject>/<int:id>/publicacion/<int:pk>/delete",
         PublicationDeleteView.as_view(),
         name="publication_delete",
+    ),
+    # COMMENTS
+    path(
+        "<str:subject>/<int:s_id>/<int:p_id>/add/comment", add_comment, name="add_comment"
+    ),
+    path(
+        "<str:subject>/<int:s_id>/<int:p_id>/delete/<int:pk>",
+        delete_comment,
+        name="delete_comment",
+    ),
+    path(
+        "<str:subject>/<int:s_id>/<int:p_id>/update/<int:pk>",
+        update_comment,
+        name="update_comment",
     ),
 ]

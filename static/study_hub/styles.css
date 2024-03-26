@@ -1,8 +1,9 @@
-img{
-    width: auto;
+img {
+    max-width: 99%;
     height: auto;
     object-fit: contain;
 }
+
 #career_form {
     width: 335px;
     gap: .8rem;
@@ -64,7 +65,26 @@ img{
 
 
 /* PUBLICATION */
+#id_title {
+    outline: none;
+    text-decoration: none;
+    border: none;
+    background-color: inherit;
+    font-size: 19px;
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    padding: 8px 15px !important;
+    width: 100%;
+    cursor: pointer;
+}
 
+#id_title::placeholder {
+    color: rgba(13, 109, 253, 0.7);
+}
+
+#id_title:focus,
+#id_title:hover {
+    border-bottom: solid 1px rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+}
 
 .publication_content p,
 .publication_content textarea {
@@ -95,4 +115,25 @@ textarea {
     margin: auto;
     width: fit-content;
     color: red;
+}
+/*  COMMENT STYLE */
+.comment{
+    background-color: #2f3742;
+    color: #dfe0e4;
+    width: 88%;
+}
+.comment div{
+    text-wrap: wrap;
+    padding:2px
+
+}
+
+div[role="application"] {
+    border-radius: 8px;
+    text-wrap: wrap;
+}
+
+div[role="application"] div {
+text-wrap: wrap;
+padding:2px
 }

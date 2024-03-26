@@ -33,33 +33,38 @@
 <h2 class="text-center">Lista de publicaciones</h2>
 <div class="container my-4 table-responsive">
 
-  <table class="table align-middle table-primary table-striped table-hover table-bordered text-center">
+  <table class="table align-middle table-danger table-striped table-hover table-bordered text-center">
     <thead>
       <tr class="table-dark">
         <th scope="col" class="col-3">Título</th>
-        <th scope="col" class="col-3">Subtítulo</th>
         <th scope="col" class="col-3">Fecha</th>
-        <th scope="col" class="col-1"> </th>
-
+        <th scope="col" class="col-2"> </th>
       </tr>
     </thead>
 
     <tbody>
       {% if publications|length >= 1 %}
       {% for publication in publications%}
-      <tr title="Abrir publicación" class="publication-row" data-publication-id="{{ publication.id }}"
+      <tr class="publication-row" data-publication-id="{{ publication.id }}"
         style="cursor: pointer;">
         <th scope="row" class="col-3">{{publication.title}}</th>
-        <th class="col-3 fw-medium">{{publication.sub_title}}</th>
-        <th class="col-3 small fw-lighter">{{publication.publication_date}}</th>
-        <th class="col-1">
-          <a href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
+        <th class="col-3 small fw-light">{{publication.publication_date}}</th>
+        
+        {% if publication.author == user %}
+        <th class="col-2">
+          <a style="text-decoration:none" title="Editar Publicación" href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
             <img alt="edit-icon" class="ms-1" src="{%static '/images/edit.svg'%}">
           </a>
-          <a href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
+          <a style="text-decoration:none" title="Borrar Publicación" href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
             <img alt="delete-icon" class="ms-1" src="{%static '/images/delete.svg'%}">
           </a>
         </th>
+          {% else %}
+          <th class="col-2" title="Creada por {{publication.author.first_name}}">
+            {{publication.author.first_name}} {{publication.author.last_name}} 
+          </th>
+        {% endif %}
+          
       </tr>
       {% endfor %}
       {% endif %}

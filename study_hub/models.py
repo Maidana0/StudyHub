@@ -8,9 +8,9 @@ from django.db.models import (
     DecimalField,
     CASCADE,
 )
-from django.db.models.fields.files import ImageField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from tinymce import models as tinymce_models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -44,17 +44,21 @@ class Subject(Model):
 
 
 class Publication(Model):
+    author = ForeignKey(User, on_delete=CASCADE, blank=False, default=1)
     title = CharField(max_length=60, blank=False)
-    sub_title = CharField(max_length=80, blank=False)
     content = tinymce_models.HTMLField()
     publication_date = DateTimeField(auto_now_add=True)
     subject = ForeignKey(Subject, on_delete=CASCADE, blank=False)
 
-    image = ImageField(
-        verbose_name="Imagen para tu publicación",
-        upload_to="publication/",
-        blank=True,
-    )
-
     def __str__(self):
         return self.title
+
+
+class Comment(Model):
+    author = ForeignKey(User, on_delete=CASCADE, blank=False)
+    publication = ForeignKey(Publication, on_delete=CASCADE, blank=False)
+    comment = tinymce_models.HTMLField()
+    comment_date = DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comentario de {self.author.username} en {self.publication.title}"

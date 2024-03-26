@@ -22,21 +22,18 @@
 
 {% block content %}
 
-<div style="width: 96%; overflow-x: scroll; hyphens: auto;" class="bg-light text-break shadow rounded mb-5 mx-auto py-4 {% if delete %}bg-danger-subtle{% endif %}">
-
+<div style="width: 96%; overflow-x: scroll; hyphens: auto;"
+  class="bg-light text-break shadow rounded mb-2 mx-auto py-4 {% if delete %}bg-danger-subtle{% endif %}">
 
   {% if form %}
   {% include 'partials/publication_form.html' %}
-
   {% else %}
-
   {% if delete %}
   <form action="" method="post" class="container w-75 text-center mt-2 mb-3 p-3 ">
     {% csrf_token %}
     <p class="text-danger fw-medium fs-4">¿Seguro que desea eliminar la publicación?</p>
-
     <div class="container my-3">
-      <a href="{% url 'apuntes:publications' subject=title id=id %}" class="btn btn-secondary">Cancelar</a>
+      <a href="{% url 'apuntes:publication_detail' subject=title id=id pk=publication.pk %}" class="btn btn-secondary">Cancelar</a>
       <input type="submit" value="Eliminar" class="ms-2 btn btn-danger">
     </div>
 
@@ -45,30 +42,34 @@
   {% endif %}
 
   <div class="publication_header container-fluid">
-    <h2 class="text-center">{{ publication.title }}</h2>
-    <h4 class="mt-4">{{publication.sub_title}}</h4>
+    <h2 class="fs-2 rounded" id="id_title">{{ publication.title }}</h2>
   </div>
 
   <div class="publication_content px-2 my-4">
-
-    {% if publication.image %}
-    <img src="">
-    {% endif %}
     {{ publication.content|safe }}
-
   </div>
-
-  <div class="publication_footer mt-3 container-fluid text-end">
-    <small class="fw-lighter">{{ publication.publication_date }}</small>
+  <!-- footer with info -->
+  <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
+    <img id="avatar_img" src="{{ publication.author.Profile.avatar.url }}" class="rounded-circle"
+      style="width: 78px;height:78px; object-fit:contain; background-color: #1e2e33;" alt="author">
+    <div class="text-secondary">
+      <p class="small m-auto">
+        <strong>Autor:</strong>
+        {{ publication.author.first_name }} {{ publication.author.last_name }}
+      </p>
+      <p class="small m-auto">
+        <strong>Fecha:</strong>
+        {{ publication.publication_date }}
+      </p>
+    </div>
   </div>
   {% endif %}
 
 
 </div>
 
-
-{% if form == null %}
-<div class="container my-5 d-flex align-items-middle justify-content-between">
+{% if form == null and publication.author == user %}
+<div class="container d-flex my-3 align-items-middle justify-content-between">
   <a class="btn edit fw-medium" style="color:#293A80"
     href="{% url 'apuntes:publication_update' subject=title id=id pk=publication.id %}">
     <img class="bi" alt="icon-edit" aria-hidden="true" src="{%static '/images/edit.svg'%}">
@@ -83,6 +84,28 @@
 </div>
 
 {% endif %}
+
+<!-- COMMENTS -->
+{% if not form and not delete %}
+  {% include 'partials/comments.html' %}
+{% endif %}
 {% endblock %}
 
 
+{% block scripts %}
+<script src="{% static 'study_hub/tinymce/tinymce.min.js' %}" referrerpolicy="origin"></script>
+<!-- Custom config -->
+<script>
+  tinymce.init({
+    selector: '#id_comment',
+    plugins: 'autolink lists link charmap emoticons image media',
+    toolbar: 'undo redo | forecolor backcolor  bold underline | alignleft aligncenter alignright | emoticons charmap | image media  link',
+    language:"es",
+    menubar: false,
+    width: "90%",
+    height: "220px",
+    skin: "oxide-dark",
+    content_css: "dark",    
+  });
+</script>
+{% endblock scripts %}

@@ -13,6 +13,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="Profile")
     avatar = models.ImageField(upload_to="avatars/", default="avatars/default_avatar.png")
 
+    @property
+    def user_publications(self):
+        return self.user.publications.all()
+
     def save(self, *args, **kwargs):
         if self.pk and self.avatar.name != "avatars/default_avatar.png":
             old_profile = Profile.objects.get(pk=self.pk)

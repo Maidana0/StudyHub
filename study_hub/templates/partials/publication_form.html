@@ -2,42 +2,38 @@
 <form method="POST" action="" style="width: 100%;height: auto;">
   {% csrf_token %}
   {{ form.media }}
+    <input class="my-2 rounded" autocomplete="off" id="id_title" type="text"
+      placeholder="Escriba su título principal..." name="title" maxlength="60"
+      value="{% if form.instance.title %}{{ form.instance.title }}{% endif %}">
+    {{form.title.errors}}
 
-  <div class="publication_header container-fluid">
-
-    <div class="text-center">
-      <input class="fs-2 fw-medium text-center w-100 mb-2 p-2" autocomplete="off" id="id_title" type="text"
-        placeholder="Escriba su título principal..." name="title" maxlength="60"
-        value="{% if form.instance.title %}{{ form.instance.title }}{% endif %}">
-      {{form.title.errors}}
-    </div>
-
-    <input class="fs-4 fw-medium w-100 my-2 px-3 py-2" type="text" placeholder="Subtítulo..." name="sub_title"
-      maxlength="80" id="id_sub_title" autocomplete="off"
-      value="{% if form.instance.sub_title %}{{ form.instance.sub_title }}{% endif %}">
-
-    {{form.sub_title.errors}}
-
-  </div>
-
-  <div class="publication_content px-2 mt-2 mb-5">
+  <div class="publication_content px-2 my-2">
     {{form.content}}
     {{ form.content.errors }}
   </div>
 
-  </div>
 
-  <div class="container d-flex gap-2 justify-content-end">
-    <label for="id_subject" class="my-auto text-nowrap">Materia:</label>
-    <select name="subject" class="form-select disabled" style="width:auto;" id="id_subject">
-      <option selected value="{{id}}">{{title}}</option>
-    </select>
+  <div class="d-flex justify-content-between text-center mx-auto gap-2 my-4" style="flex-wrap: wrap;">
+    <div class="d-flex mx-auto align-items-center gap-2">
+      <label for="id_subject" class="text-end text-nowrap" style="width: 60px;">Materia:</label>
+      <select name="subject" class="form-select-sm" style="width:200px;" id="id_subject">
+        <option selected value="{{id}}">{{title}}</option>
+      </select>
+      {{form.subject.errors}}
+    </div>
+
+    <div class="d-flex mx-auto  align-items-center gap-2">
+      <label for="id_author" class="text-end text-nowrap" style="width: 60px;">Autor:</label>
+      <select name="author" class="form-select-sm" style="width:200px;" id="id_author">
+        <option selected value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+      </select>
+      {{form.author.errors}}
+    </div>
   </div>
-  {{form.subject.errors}}
 
   <div class="text-center my-3">
     {% if form.instance.content %}
-    <a class="btn btn-danger me-2" href="{% url 'apuntes:publications' subject=title id=id %}">
+    <a class="btn btn-danger me-2"  href="{% url 'apuntes:publication_detail' subject=title id=id pk=publication.pk %}">
       Cancelar
     </a>
     {% endif %}

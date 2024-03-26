@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Career, Subject, Publication
+from .models import Career, Comment, Subject, Publication
 
 
 # Register your models here.
@@ -16,3 +16,8 @@ class SubjectAdmin(admin.ModelAdmin):
 @admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):
     list_display = ("title", "subject")
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("publication", "author")

@@ -140,13 +140,13 @@ TINYMCE_DEFAULT_CONFIG = {
     "height": "480px",
     "width": "100%",
     "menubar": "file edit view insert format tools table help",
-    "plugins": "advlist autolink lists link image charmap print preview searchreplace visualblocks"
-    "fullscreen insertdatetime media table paste code help wordcount emoticons ",
+    "plugins": "advlist autolink lists link image charmap print preview searchreplace"
+    "fullscreen insertdatetime media table code help wordcount emoticons ",
     "toolbar": "undo redo | bold italic underline strikethrough |"
     "pagebreak |forecolor backcolor casechange  permanentpen formatpainter removeformat | charmap emoticons |"
     "fontselect fontsizeselect formatselect"
-    "fullscreen  preview save print | insertfile image media pageembed template link codesample | "
-    "| alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist |",
+    "fullscreen  preview save print | image media  link codesample | "
+    "| alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | searchreplace",
     "custom_undo_redo_levels": 10,
     # "skin": "oxide-dark",
     # "content_css": "dark",
