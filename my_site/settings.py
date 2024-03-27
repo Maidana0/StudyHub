@@ -126,7 +126,7 @@ STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "pages/static")]
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
@@ -148,8 +148,6 @@ TINYMCE_DEFAULT_CONFIG = {
     "fullscreen  preview save print | image media  link codesample | "
     "| alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | searchreplace",
     "custom_undo_redo_levels": 10,
-    # "skin": "oxide-dark",
-    # "content_css": "dark",
 }
 
 TINYMCE_SPELLCHECKER = True

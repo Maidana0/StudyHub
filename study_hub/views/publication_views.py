@@ -12,10 +12,12 @@ class PublicationsListView(ListView):
     model = Publication
     template_name = "list_publications.html"
     context_object_name = "publications"
+    paginate_by = 1
 
     # realizo el filtrado obteniendo la query id
     def get_queryset(self):
-        return Publication.objects.filter(subject=self.kwargs["id"])
+        publications_filter = Publication.objects.filter(subject=self.kwargs["id"])
+        return publications_filter.order_by("-publication_date")
 
     # agrego valores al contexto
     def get_context_data(self, **kwargs):

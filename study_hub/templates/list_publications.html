@@ -14,7 +14,7 @@
 
 <div class="container d-flex justify-content-between">
   <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-    style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="{% url 'apuntes:hub' %}">
+    style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
     <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
     Volver
   </a>
@@ -45,26 +45,27 @@
     <tbody>
       {% if publications|length >= 1 %}
       {% for publication in publications%}
-      <tr class="publication-row" data-publication-id="{{ publication.id }}"
-        style="cursor: pointer;">
+      <tr class="publication-row" data-publication-id="{{ publication.id }}" style="cursor: pointer;">
         <th scope="row" class="col-3">{{publication.title}}</th>
         <th class="col-3 small fw-light">{{publication.publication_date}}</th>
-        
+
         {% if publication.author == user %}
         <th class="col-2">
-          <a style="text-decoration:none" title="Editar Publicación" href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
+          <a style="text-decoration:none" title="Editar Publicación"
+            href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
             <img alt="edit-icon" class="ms-1" src="{%static '/images/edit.svg'%}">
           </a>
-          <a style="text-decoration:none" title="Borrar Publicación" href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
+          <a style="text-decoration:none" title="Borrar Publicación"
+            href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
             <img alt="delete-icon" class="ms-1" src="{%static '/images/delete.svg'%}">
           </a>
         </th>
-          {% else %}
-          <th class="col-2" title="Creada por {{publication.author.first_name}}">
-            {{publication.author.first_name}} {{publication.author.last_name}} 
-          </th>
+        {% else %}
+        <th class="col-2" title="Creada por {{publication.author.first_name}}">
+          {{publication.author.first_name}} {{publication.author.last_name}}
+        </th>
         {% endif %}
-          
+
       </tr>
       {% endfor %}
       {% endif %}
@@ -81,6 +82,23 @@
     </tfoot>
   </table>
 
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    {% if page_obj.has_previous %}
+    <div class="bg-danger bg-gradient p-2 rounded">
+      <a href="?page={{ page_obj.previous_page_number }}" class="link-light px-2">&laquo; Anterior</a>
+    </div>
+    {% endif %}
+
+    <div class="bg-danger bg-gradient text-light p-2 rounded">
+      Página {{ page_obj.number }} de {{ paginator.num_pages }}
+    </div>
+
+    {% if page_obj.has_next %}
+    <div class="bg-danger bg-gradient p-2 rounded">
+      <a href="?page={{ page_obj.next_page_number }}" class="link-light px-2">Siguiente &raquo;</a>
+    </div>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}
@@ -104,5 +122,5 @@
 </script>
 
 
-    
+
 {% endblock scripts %}

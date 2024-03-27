@@ -6,8 +6,8 @@
             alt="avatar">
 
         <div>
-            <small>Nombre de usuario:</small>
-            <h3>{{user.username}}</h3>
+            <small class="text-secondary">Nombre de usuario:</small>
+            <h3 class="text-light bg-dark bg-gradient rounded-3 p-2">{{user.username}}</h3>
             <input type="file" name="avatar" accept="image/*" id="id_avatar">
             <label id="avatar_label" class="custom-link text-light d-flex align-items-center" for="id_avatar">
                 <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" fill="#fff" height="19"
@@ -45,9 +45,9 @@
         href="{% url 'account:change_password' %}">
         Cambiar contraseña
     </a>
-    
-    
-    
+
+
+
     <div class="mt-4">
         <input type="button" value="Editar perfil" id="edit_profile" class="btn btn-outline-primary me-2">
         <input type="submit" value="Guardar cambios" class="btn btn-primary">

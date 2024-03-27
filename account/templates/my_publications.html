@@ -1,0 +1,146 @@
+{% extends 'layout.html' %}
+
+
+
+{% block stylesheet %}
+<style>
+    .my-publication-header a {
+        width: fit-content;
+        padding: 0 10px;
+    }
+
+    .my-publication-header>a:first-of-type {
+        margin: 0 !important;
+        max-width: 70%;
+    }
+
+    .my-publication-header>a:nth-of-type(2) {
+        max-width: 25%;
+        margin: 0 !important;
+    }
+
+    .my-publication-content {
+        width: 95% !important;
+        height: 160px;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .container {
+        transition: box-shadow ease .3s;
+    }
+
+    .container:hover {
+        box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.7);
+    }
+
+    .custom-link {
+        color: #fff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        transition: background-color ease .3s;
+        background-color: #ff402bd8 !important;
+    }
+
+    .custom-link:hover {
+        background-color: #ff1900 !important;
+    }
+
+    .custom-link:disabled {
+        background-color: #ff8071a8 !important;
+        cursor: no-drop;
+    }
+
+    .page-item .page-link{
+        color: black!important;
+        border-color: #ff190085 !important;
+    }
+
+    .active>.page-link {
+        background-color: #ff1900 !important;
+        border-color: #ff1900 !important;
+        color: #fff!important;
+
+    }
+    .page-item .page-link:hover{
+        background: #ff1900a8!important;
+        color: #fff!important;
+
+    }
+    
+</style>
+{% endblock stylesheet %}
+
+{% block header %}
+<h1 class="text-center w-75 m-auto py-2 px-4 bg-dark text-light rounded">{{title}}</h1>
+{% endblock header %}
+
+
+
+
+{% block content %}
+
+<div class="row mx-auto mt-4" style="width: 100%;">
+    {% for publication in my_publications %}
+    <div class="col-12 col-sm-6">
+        <div class="container rounded text-light bg-dark mx-auto">
+            <div class="my-publication-header d-flex py-2 justify-content-between align-items-center">
+                <a href="{% url 'apuntes:publication_detail' subject=publication.subject.name id=publication.subject.pk pk=publication.pk %}"
+                    class="text-truncate link-light link-underline-opacity-0 link-underline-opacity-75-hover fs-2">
+                    {{publication.title}}
+                </a>
+
+                <a href="{% url 'apuntes:publications' subject=publication.subject.name id=publication.subject.pk %}"
+                    class="text-secondary text-truncate text-end link-light link-underline-opacity-0 ">
+                    {{publication.subject.name}}
+                </a>
+            </div>
+
+            <div class="my-publication-content my-3 mx-auto py-2 px-3 bg-secondary rounded">
+                {{publication.content|safe}}
+            </div>
+
+            <p class="text-end text-secondary p-2"> <small>{{publication.publication_date}}</small> </p>
+
+        </div>
+    </div>
+    {% endfor %}
+
+    <nav class="col-11 mt-5 mx-auto d-flex justify-content-between align-items-center">
+
+        {% if my_publications.has_previous %}
+        <a href="?page={{ my_publications.previous_page_number }}" class="custom-link">
+            Anterior
+        </a>
+        {% else %}
+        <button class="custom-link" disabled>
+            Anterior
+        </button>
+        {% endif %}
+
+        <ul class="pagination pagination-md m-0">
+            {% for num_page in my_publications.paginator.page_range %}
+            {% if my_publications.number == num_page %}
+            <li class="page-item active" aria-current="page"> <span class="page-link">{{ num_page }}</span></li>
+            {% else %}
+            <li class="page-item"> <a class="page-link" href="?page={{ num_page }}">{{ num_page }}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+
+        {% if my_publications.has_next %}
+        <a href="?page={{ my_publications.next_page_number }}" class="custom-link">
+            Siguiente
+        </a>
+        {% else %}
+        <button class="custom-link" disabled>
+            Siguiente
+        </button>
+        {% endif %}
+    </nav>
+</div>
+
+{% endblock content %}

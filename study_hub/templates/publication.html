@@ -9,11 +9,15 @@
   {{title}}
 </h1>
 
-<div class="container d-flex mb-3">
+<div class="container d-flex justify-content-between mb-3">
   <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-    style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0)"
+  style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);"  href="javascript:history.back()">
+  <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+  Volver
+</a>
+
+  <a class="custom-link text-light link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
     href="{% url 'apuntes:publications' subject=title id=id %}">
-    <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
     Lista de publicaciones
   </a>
 </div>
@@ -93,7 +97,7 @@
 
 
 {% block scripts %}
-<script src="{% static 'study_hub/tinymce/tinymce.min.js' %}" referrerpolicy="origin"></script>
+<script src="{% static 'tinymce/tinymce.min.js' %}" referrerpolicy="origin"></script>
 <!-- Custom config -->
 <script>
   tinymce.init({

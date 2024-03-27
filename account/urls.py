@@ -3,6 +3,7 @@ from .views import (
     change_password,
     login_request,
     logout_request,
+    my_publications,
     profile_request,
     register_request,
     CustomPasswordReset,
@@ -42,5 +43,6 @@ urlpatterns = [
     path("perfil/", profile_request, name="profile"),
     path("cambiar-contraseña/", change_password, name="change_password"),
     path("cerrar-sesion/", logout_request, name="logout"),
+    path("mis-publicaciones/", my_publications, name="my_publications"),
     *password_reset_config,
 ]

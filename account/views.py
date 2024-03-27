@@ -2,6 +2,8 @@ from django.contrib.auth import login, authenticate, logout, views as auth_views
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
+from study_hub.models import Publication
+
 from .forms import CustomRegisterForm, CustomAuthForm
 from django.contrib.auth.forms import PasswordChangeForm
 
@@ -15,6 +17,7 @@ from .forms import CustomProfileForm
 
 
 from django.contrib.auth import update_session_auth_hash
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def login_request(request):
@@ -182,3 +185,25 @@ class CustomPasswordResetComplete(auth_views.PasswordResetCompleteView):
 
     template_name = "password_reset.html"
     extra_context = {"customMessages": customMessages}
+
+
+@login_required
+def my_publications(request):
+    publications_filter = Publication.objects.filter(author=request.user).order_by(
+        "-publication_date"
+    )
+    paginator = Paginator(publications_filter, 6)
+    page = request.GET.get("page")
+
+    try:
+        publications = paginator.page(page)
+    except PageNotAnInteger:
+        publications = paginator.page(1)
+    except EmptyPage:
+        publications = paginator.page(paginator.num_pages)
+
+    return render(
+        request,
+        "my_publications.html",
+        {"title": "Mis Publicaciones", "my_publications": publications},
+    )
