@@ -1,7 +1,9 @@
-<form action="" method="POST" class="text-center mt-2 mb-5">
-    {% csrf_token %}
+<div class="row w-100 m-0">
+    <form action="" method="POST" class="text-center my-2 mx-auto col-12 col-md-6">
+        {% csrf_token %}
 
-    <h3 class="mb-4">Datos Personales</h3>
+
+    <h3 class="mb-4 rounded-4  p-2 bg-dark bg-gradient text-light">Datos Personales</h3>
     <div class="container mb-4">
         <div class="d-flex  justify-content-between">
 
@@ -25,9 +27,8 @@
             <span class="small text-danger mt-1"> {{ form.email.errors }} </span>
         </div>
     </div>
-
-
-    <h3 class="mb-4">Datos de Ingreso</h3>
+    <hr>
+    <h3  class="mb-4 rounded-4  p-2 bg-dark bg-gradient text-light">Datos de Ingreso</h3>
     <div class="container mb-4">
         <div class="form-floating">
             <input type="text" class="form-control mb-2 {% if form.username.errors %}is-invalid{% endif %}"
@@ -53,15 +54,16 @@
             <span class="small text-danger"> {{form.password2.errors}} </span>
         </div>
     </div>
+    <hr>
+
+    <input type="submit" value="Registrarme" class="btn btn-success mt-2 px-3">
 
 
-    <input type="submit" value="Registrarme" class="btn btn-primary mt-2">
-
-
-    <div class="container text-center my-3">
-        <a class="link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+    <div class="container text-center mt-3">
+        <a class="btn btn-primary px-3"
             href="{% url 'account:login' %}">
             Iniciar Sesión
         </a>
     </div>
 </form>
+</div>

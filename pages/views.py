@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST, require_GET
-from study_hub.models import Publication
+from study_hub.models import Career, Publication, Subject
 
 
 # Debug False
@@ -18,8 +18,20 @@ def handler404(request, exception):
 
 @require_GET
 def home(request):
+    pk = request.GET.get("career", False)
+    list_careers = Career.objects.all()
+    career = None
+    subjects = None
+    if pk:
+        career = list_careers.get(pk=pk) if list_careers.filter(pk=pk) else False
+        subjects = Subject.objects.filter(career=career) if career else None
 
-    return render(request, "home.html", {"title": "Maidana App"})
+    context = {
+        "list_careers": list_careers,
+        "career": career,
+        "subjects": subjects,
+    }
+    return render(request, "home.html", context)
 
 
 @require_POST
@@ -44,5 +56,4 @@ def searchNavbar(request):
 
 @require_GET
 def about_me(request):
-
     return render(request, "about.html", {"title": "Acerca de Mí"})

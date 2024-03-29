@@ -1,7 +1,11 @@
 {% load static %}
 
 
-<form method="post" class="text-center container my-5" style="width: 330px;">
+<form method="post" class="text-center container mb-5" style="width: 330px;">
+    <div class="bg-secondary-subtle rounded-circle mx-auto mt-2 mb-4 px-3 py-4 text-center border border-light shadow-lg"
+        style="width: fit-content; height: fit-content;">
+        <img style="margin-left:1rem" src="{% static 'images/decoration/gohan-head.png' %}" alt="user-anonymous">
+    </div>
 
     {% csrf_token %}
 
@@ -18,14 +22,17 @@
     <input type="submit" value="Iniciar Sesión" class="btn btn-primary">
 
     <div class="text-center my-3 d-flex flex-column gap-3">
-        <a class="link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-            href="{% url 'account:register' %}">
-            Crear cuenta nueva
+        <a class="btn btn-success px-3 mx-auto" style="width: fit-content;" href="{% url 'account:register' %}">
+            Registrarme
         </a>
-        <a class="small link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-            href="{% url 'account:password_reset' %}">
-            ¿Olvidaste tu contraseña?
-        </a>
+
+
+        <div class="bg-light shadow py-2 px-3 rounded-3 mx-auto" style=" width:fit-content">
+            <a class="small link-offset-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                href="{% url 'account:password_reset' %}">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </div>
     </div>
 
 </form>

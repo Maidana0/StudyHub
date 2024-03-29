@@ -6,13 +6,27 @@ from django.urls import reverse_lazy
 from .views import get_subject_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import Comment
+from urllib.parse import urlencode
+
+
+def _success_url(self):
+    base_url = reverse_lazy(
+        "apuntes:publication_detail",
+        kwargs={
+            "subject": self.kwargs["subject"],
+            "id": self.kwargs["id"],
+            "pk": self.object.pk,
+        },
+    )
+    query_params = urlencode({"publicacion": "nueva"})
+    return f"{base_url}?{query_params}"
 
 
 class PublicationsListView(ListView):
     model = Publication
     template_name = "list_publications.html"
     context_object_name = "publications"
-    paginate_by = 1
+    paginate_by = 10
 
     # realizo el filtrado obteniendo la query id
     def get_queryset(self):
@@ -38,7 +52,9 @@ class PublicationDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         subject = get_subject_or_404(self.kwargs["id"], self.kwargs["subject"])
         comments = Comment.objects.filter(publication=self.kwargs["pk"])
+        query_params = self.request.GET.get("publicacion", False)
 
+        context["is_new"] = query_params
         context["id"] = subject.id
         context["title"] = subject.name
         context["comments"] = comments
@@ -52,14 +68,7 @@ class PublicationCreateView(LoginRequiredMixin, CreateView):
     template_name = "publication.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "apuntes:publication_detail",
-            kwargs={
-                "subject": self.kwargs["subject"],
-                "id": self.kwargs["id"],
-                "pk": self.object.pk,
-            },
-        )
+        return _success_url(self)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,14 +84,7 @@ class PublicationUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["title", "author", "content", "subject"]
 
     def get_success_url(self):
-        return reverse_lazy(
-            "apuntes:publication_detail",
-            kwargs={
-                "subject": self.kwargs["subject"],
-                "id": self.kwargs["id"],
-                "pk": self.object.pk,
-            },
-        )
+        return _success_url(self)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

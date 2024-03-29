@@ -6,7 +6,7 @@ from study_hub.models import Career, Subject
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ["name", "code", "description", "career"]
+        fields = ["name", "code", "career"]
 
     name = forms.CharField(
         max_length=40,
@@ -30,22 +30,6 @@ class SubjectForm(forms.ModelForm):
                 "placeholder": "Código",
                 "min": 1,
                 "max": 9999,
-            }
-        ),
-    )
-
-    description = forms.CharField(
-        max_length=290,
-        required=False,
-        label="",
-        widget=forms.Textarea(
-            attrs={
-                "class": "form-control my-2 ",
-                "placeholder": "Descripción (opcional) de la materia...",
-                "autocomplete": "off",
-                "rows": 3,
-                "cols": 100,
-                "style": "resize: none;",
             }
         ),
     )

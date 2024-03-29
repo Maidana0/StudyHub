@@ -30,66 +30,73 @@
     </option>
     {% endfor %}
   </select>
-  <input type="submit" class="btn btn-primary" value="Buscar">
+  <input type="submit" class="btn" style="background-color: #c0392b; color:#fff" value="Buscar">
 </form>
 
-<div id="contain" class="container mb-5">
+<div id="contain" class="container">
 
-  {% for career in careers %}
-  <div class="mt-2 mb-4 shadow rounded-4">
+  <div class="row w-100 m-0">
+    <div class="col-sm-11 col-12">
+        {% for career in careers %}
+        <div class="mt-2 mb-4 rounded-4">
+          
+          <div style="background-color: #d34232;"
+          id="career-{{career.id}}" class="d-flex container py-2 rounded-top-4 rounded-bottom-0">
+            <h2 class="my-auto me-auto text-light text-truncate">{{ career.title }}</h2>
+            <img src="{% static 'images/expand_more.svg' %}" alt="show">
+        </div>
+        
+        <div hidden id="subjects-{{career.id}}"
+          class="animation-swing bg-dark p-3 m-auto rounded-top-0 rounded-bottom-4 row row-cols-1 row-cols-md-2 text-center">
+          {% for subject in subjects %}
+          {% if subject.career == career %}
+          <div class="col my-2">
+            <div class="text-truncate btn btn-outline-light container d-flex align-items-center
+            justify-content-{% if update %}between{% else %}center{% endif %}">
+              <a style="width:80%; color: inherit;  text-decoration: none;" class="fs-5 py-3 text-truncate"
+              href="{% url 'apuntes:publications' id=subject.id subject=subject.name %}">
+              {{ subject.name }}</a>
+              <!-- ------------------------------------------------ -->
+              {% if user.is_staff %}
+              <div>
+                <a class="btn p-0 me-1" href="{% url 'apuntes:update_subject' career=subject.career.id subject=subject.name pk=subject.id %}">
+                  <img src="{% static 'images/edit.svg' %}" title="Actualizar materia" alt="icon update subject">
+                </a>
+                <button type="button"  class="btn p-0" aria-label="{{subject.career}}-{{subject.career.id}}" aria-roledescription="{{subject.name}}" id="delete_subject_{{subject.id}}">
+                  <img src="{% static 'images/delete.svg' %}" title="Borrar materia" alt="icon delete subject">
+                </button>
+              </div>
+              {% endif %}
+              <!-- ------------------------------------------------ -->
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
 
-    <div id="career-{{career.id}}" class="d-flex container py-2 bg-primary bg-gradient rounded-top-4 rounded-bottom-0">
-      <h2 class="my-auto me-auto text-light text-truncate">{{ career.title }}</h2>
-      <img src="{% static 'images/expand_more.svg' %}" alt="show">
-    </div>
-    <div hidden id="subjects-{{career.id}}"
-      class="animation-swing bg-dark p-3 m-auto rounded-top-0 rounded-bottom-4 row row-cols-1 row-cols-sm-2 text-center">
-      {% for subject in subjects %}
-      {% if subject.career == career %}
-      <div class="col my-2">
-        <div class="text-truncate btn btn-outline-light container d-flex align-items-center
-         justify-content-{% if update %}between{% else %}center{% endif %}">
-          <a style="width:80%; color: inherit;  text-decoration: none;" class="fs-5 py-3 text-truncate"
-          href="{% url 'apuntes:publications' id=subject.id subject=subject.name %}">
-          {{ subject.name }}</a>
-          <!-- ------------------------------------------------ -->
-          {% if user.is_staff %}
-          <div>
-            <a class="btn p-0 me-1" href="{% url 'apuntes:update_subject' career=subject.career.id subject=subject.name pk=subject.id %}">
-              <img src="{% static 'images/edit.svg' %}" title="Actualizar materia" alt="icon update subject">
-            </a>
-            <button type="button"  class="btn p-0" aria-label="{{subject.career}}-{{subject.career.id}}" aria-roledescription="{{subject.name}}" id="delete_subject_{{subject.id}}">
-              <img src="{% static 'images/delete.svg' %}" title="Borrar materia" alt="icon delete subject">
+
+          {% comment %}AGREGAR MATERIA{% endcomment %}
+          {% if user.is_authenticated %}
+          <div class="col-md-7 mx-auto mt-5 mb-2 container">
+            <button type="button" class="btn_add_subject py-2 px-4 text-truncate btn btn-light">
+              Agregar materia
             </button>
           </div>
+          {% include 'partials/subject_form.html' %}
+          <!-- ------------------------------------------------ -->
+          {% if user.is_staff %}<div class="col-md-12 mt-5 d-flex justify-content-between">
+            <a href="{% url 'apuntes:update_career' pk=career.id career_title=career.title %}" id="update_career_{{career.id}}"
+              class="btn btn-success"> Editar Carrera </a>
+            <button type="button" id="delete_career_{{career.id}}" class="btn btn-danger">Borrar Carrera </button>
+          </div>{% endif %}
           {% endif %}
           <!-- ------------------------------------------------ -->
         </div>
       </div>
-      {% endif %}
       {% endfor %}
-
-
-      {% comment %}AGREGAR MATERIA{% endcomment %}
-      {% if user.is_authenticated %}
-      <div class="col-sm-7 mx-auto mt-5 mb-2 container">
-        <button type="button" class="btn_add_subject py-2 px-4 text-truncate btn btn-light">
-          Agregar materia
-        </button>
-      </div>
-      {% include 'partials/subject_form.html' %}
-      <!-- ------------------------------------------------ -->
-      {% if user.is_staff %}<div class="col-sm-12 mt-5 d-flex justify-content-between">
-        <a href="{% url 'apuntes:update_career' pk=career.id career_title=career.title %}" id="update_career_{{career.id}}"
-          class="btn btn-primary"> Editar Carrera </a>
-        <button type="button" id="delete_career_{{career.id}}" class="btn btn-danger">Borrar Carrera </button>
-      </div>{% endif %}
-      {% endif %}
-      <!-- ------------------------------------------------ -->
     </div>
-  </div>
-  {% endfor %}
 
+    <img class="col-sm-4 gohan-image gohan" src="{% static 'images/decoration/gohan.webp' %}" alt="gohan-student">
+  </div>
 
   {% comment %}AGREGAR CARRERA{% endcomment %}
   {% if user.is_authenticated %}

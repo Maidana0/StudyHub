@@ -82,7 +82,10 @@
     </tfoot>
   </table>
 
-  <div class="container-fluid d-flex justify-content-between align-items-center">
+
+
+  <div class="container-fluid d-flex  align-items-center
+  justify-content-{% if page_obj.has_previus or page_obj.has_next %}between{% else %}center{% endif %}">
     {% if page_obj.has_previous %}
     <div class="bg-danger bg-gradient p-2 rounded">
       <a href="?page={{ page_obj.previous_page_number }}" class="link-light px-2">&laquo; Anterior</a>

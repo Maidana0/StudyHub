@@ -1,23 +1,33 @@
 {% extends 'layout.html' %}
+{% load static %}
 
+{% block stylesheet %}
+    <style>
+        img{
+            object-fit: contain;
+            max-width:50%;
+        }
+        .url{
+            width: fit-content;
+        }
+        .error-contain{
+            width: 90%;
+        }
+        @media (max-width: 480px) {
+            img{
+                max-width:300px;
+            }
+        }
+    </style>
+{% endblock stylesheet %}
 
 {% block content %}
 
-
-<h1>404 Error: Página no encontrada</h1>
-<p>Lo sentimos, la página que buscas no existe.</p>
-
-{% if custom_message %}
-<p>{{ custom_message }}</p>
-{% endif %}
-
-{% if request.path|length > 1 %}
-<p>La URL solicitada fue: {{ request.path }}</p>
-{% endif %}
-
-{% if exception %}
-<p>Error: {{ exception }}</p>
-{% endif %}
-
-
+<div class="error-contain mx-auto bg-dark text-light rounded-4 p-sm-5 p-3 text-center">
+    <img class="rounded-4 mx-auto" src="{% static 'gohan-sleep.webp' %}" alt="error-404">
+    <h1 class="my-3 gohan-image">Error 404: Página no encontrada</h1>
+    <h5 class="my-4">La página que buscas no existe o no coincide con las URLS del sitio.</h5>
+    <p class="fs-5 mt-3 mb-0">Lo sentimos, no es posible acceder a la siguiente URL:</p>
+    <p class="url gohan-image mt-3 mb-0 mx-auto fs-5 bg-light text-danger rounded-3 px-4 py-2">{{ request.path_info }}</p>
+</div>
 {% endblock content %}

@@ -1,55 +1,59 @@
-<form method="post" class="text-center" id="profile" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="d-flex justify-content-center align-items-center gap-1 mb-3">
-        <img id="avatar_img" src="{% if user.Profile.avatar %} {{user.Profile.avatar.url}} {% endif %}"
-            class="rounded-circle" style="width: 138px;height:138px; object-fit:contain; background-color: #1e2e33;"
-            alt="avatar">
+    <form class="bg-light shadow-lg rounded-3 mt-3 py-4 px-2 text-center" style="--bs-bg-opacity: .9;"
+        method="post" id="profile" enctype="multipart/form-data">
+        {% csrf_token %}
 
-        <div>
-            <small class="text-secondary">Nombre de usuario:</small>
-            <h3 class="text-light bg-dark bg-gradient rounded-3 p-2">{{user.username}}</h3>
-            <input type="file" name="avatar" accept="image/*" id="id_avatar">
-            <label id="avatar_label" class="custom-link text-light d-flex align-items-center" for="id_avatar">
-                <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" fill="#fff" height="19"
-                    viewBox="0 -960 960 960" width="19">
-                    <path
-                        d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-                </svg>
-                cambiar imagen
-            </label>
-        </div>
+        <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+            <img id="avatar_img" src="{% if user.Profile.avatar %} {{user.Profile.avatar.url}} {% endif %}"
+                class="rounded-circle" style="width: 138px;height:138px; object-fit:contain; background-color: #1e2e33;"
+                alt="avatar">
 
-    </div>
-
-    <div class="container my-4">
-        <div class="input-group mb-3">
-            <span class="input-group-text"> {{ form.first_name.label_tag }}</span>
-            {{ form.first_name }}
-            <span class="small text-danger"> {{ form.first_name.errors }} </span>
+            <div>
+                <small class="text-secondary">Nombre de usuario:</small>
+                <h3 class="text-light bg-dark bg-gradient rounded-3 p-2">{{user.username}}</h3>
+                <input type="file" name="avatar" accept="image/*" id="id_avatar">
+                <label id="avatar_label" class="custom-link text-light d-flex align-items-center" for="id_avatar">
+                    <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" fill="#fff" height="19"
+                        viewBox="0 -960 960 960" width="19">
+                        <path
+                            d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+                    </svg>
+                    cambiar imagen
+                </label>
+            </div>
 
         </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text"> {{ form.last_name.label_tag }}</span>
-            {{ form.last_name }}
-            <span class="small text-danger"> {{ form.last_name.errors }} </span>
+
+
+        <div class="container my-4">
+            <div class="input-group mb-3">
+                <span class="input-group-text"> {{ form.first_name.label_tag }}</span>
+                {{ form.first_name }}
+                <span class="small text-danger"> {{ form.first_name.errors }} </span>
+
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"> {{ form.last_name.label_tag }}</span>
+                {{ form.last_name }}
+                <span class="small text-danger"> {{ form.last_name.errors }} </span>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text text-truncate"> {{ form.email.label_tag }}</span>
+                {{ form.email }}
+                <span class="small text-danger"> {{ form.email.errors }} </span>
+            </div>
         </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text text-truncate"> {{ form.email.label_tag }}</span>
-            {{ form.email }}
-            <span class="small text-danger"> {{ form.email.errors }} </span>
+
+
+        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="{% url 'account:change_password' %}">
+            Cambiar contraseña
+        </a>
+
+
+
+        <div class="mt-4">
+            <input type="button" value="Editar perfil" id="edit_profile" class="btn btn-outline-primary me-2">
+            <input type="submit" value="Guardar cambios" class="btn btn-primary">
         </div>
-    </div>
 
-
-    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-        href="{% url 'account:change_password' %}">
-        Cambiar contraseña
-    </a>
-
-
-
-    <div class="mt-4">
-        <input type="button" value="Editar perfil" id="edit_profile" class="btn btn-outline-primary me-2">
-        <input type="submit" value="Guardar cambios" class="btn btn-primary">
-    </div>
-</form>
+    </form>

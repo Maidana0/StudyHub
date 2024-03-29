@@ -10,11 +10,15 @@
 </h1>
 
 <div class="container d-flex justify-content-between mb-3">
+
+  {% if not is_new %}
   <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-  style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);"  href="javascript:history.back()">
-  <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
-  Volver
-</a>
+    style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
+    <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+    Volver
+  </a>
+  {% endif %}
+
 
   <a class="custom-link text-light link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
     href="{% url 'apuntes:publications' subject=title id=id %}">
@@ -37,7 +41,8 @@
     {% csrf_token %}
     <p class="text-danger fw-medium fs-4">¿Seguro que desea eliminar la publicación?</p>
     <div class="container my-3">
-      <a href="{% url 'apuntes:publication_detail' subject=title id=id pk=publication.pk %}" class="btn btn-secondary">Cancelar</a>
+      <a href="{% url 'apuntes:publication_detail' subject=title id=id pk=publication.pk %}"
+        class="btn btn-secondary">Cancelar</a>
       <input type="submit" value="Eliminar" class="ms-2 btn btn-danger">
     </div>
 
@@ -91,7 +96,7 @@
 
 <!-- COMMENTS -->
 {% if not form and not delete %}
-  {% include 'partials/comments.html' %}
+{% include 'partials/comments.html' %}
 {% endif %}
 {% endblock %}
 
@@ -104,12 +109,12 @@
     selector: '#id_comment',
     plugins: 'autolink lists link charmap emoticons image media',
     toolbar: 'undo redo | forecolor backcolor  bold underline | alignleft aligncenter alignright | emoticons charmap | image media  link',
-    language:"es",
+    language: "es",
     menubar: false,
     width: "90%",
     height: "220px",
     skin: "oxide-dark",
-    content_css: "dark",    
+    content_css: "dark",
   });
 </script>
 {% endblock scripts %}

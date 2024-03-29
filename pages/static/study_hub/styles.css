@@ -101,16 +101,6 @@ img {
     border-color: #C84B31;
 }
 
-/* input,
-textarea {
-    border-radius: 0.5rem;
-    background-color: inherit;
-    border-style: none;
-    outline-style: none;
-    transition: ease .25s;
-    border: solid 1px #2228311e;
-} */
-
 .errorlist {
     margin: auto;
     width: fit-content;
@@ -137,3 +127,13 @@ div[role="application"] div {
 text-wrap: wrap;
 padding:2px
 }
+
+
+    .gohan{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        max-height: 80% !important;
+        z-index: -100;
+    }
+

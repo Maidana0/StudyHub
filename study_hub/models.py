@@ -33,7 +33,6 @@ class Career(Model):
 class Subject(Model):
     name = CharField(max_length=40)
     code = IntegerField(validators=[MaxValueValidator(9999), MinValueValidator(1)])
-    description = TextField(max_length=300, blank=True)
     career = ForeignKey(Career, on_delete=CASCADE)
 
     class Meta:

@@ -1,35 +1,84 @@
--- Tercera Pre-Entrega del Proyecto Final en CoderHouse --
-# 1- Instalar dependencias
+[TOC]
 
-# 2- Iniciar proyecto
-- Escribir en la consola: 
-    "python manage.py runserver"
+------------
 
 # StudyHub
-Considero interesante crear un sitio web (full-responsive) en el que pueda guardar y ordenar mis apuntes de clases. 
-El proyecto se lleva a cabo utilizando Django y Bootstrap, con el fin de practicar dicho framework de python.
 
-# Metodos GET
-- Contamos con una barra de navegación en el navbar para buscar y abrir directamente la publicación que deseamos ver. El filtrado, de momento, es por el titulo de la publicación.
+1. Se trata de un sitio web (responsive) para guardar y ordenar apuntes y/o resumenes de materias universitarias.
+2. Su objetivo es el de practicar el uso de Django, y algunas librerias (pillow y django-tinymce).
 
-- En "/apuntes" obtendremos un listado de las carreras con sus respectivas materias. Podremos filtrarlas seleccionando una carrera en especifico.
+------------
+## Funcionalidad
 
-- Al clickear sobre una materia, obtendremos una lista con todas las publicaciones pertenecientes a la misma. 
+- Cuenta con Login, Logout, Register, ChangePassword, ForgotPassword, ChangePassword, expireSession, etc.
 
-- A continuación, con tan solo clickear en la fila de la publicación que deseemos ver, podremos obtener la información detallada de dicha publicación, su contenido.
+- Las rutas cuentan con verificaciones para mayor seguridad.
 
-# Metodos POST, creación de objetos:
-- En un primer momento deberiamos de crear una carrera universitaria o rama, en la que indicaremos a que universidad pertenece y su cantidad de materias.
+- Podras subir y editar una imagen para tu perfil, la misma se guardará en la carpeta media y solamente una por usuario, ajustando el tamaño de la imagen automaticamente.
 
-- A continuacion podremos ir agregando las materias en las que guardaremos cada apunte o publicación.
+- Solamente los administradores pueden eliminar los objetos de Career y Subject, ya que si se borrará alguna, también se borrara todo lo que dependa de estas.
 
-- Finalmente solo resta crear la publicación indicando a qué materia pertenece.
-(Los modelos de Subject y Publication dependerán del modelo Career jerarquicamente)
+- El proyecto cuenta con un CRUD personalizado para los modelos de Career, Subject, Publication, comment, Profile. Los primeros 4 están conectados entre sí con un ForeignKey. Siguiendo la siguiente estructura:
+
+```
+	Career
+		Subject
+			Publication
+				Comment
+```
+
+```
+	User
+		Profile
+```
+
+- El objeto Profile se crea automaticamente después de crear un usuario y basicamente contiene la siguiente estructura:
+
+```python
+user =OneToOneField(User...)
+avatar = ImageField(...)
+user_publications = Publications.objects
+```
+
+## Instalación de Dependencias
+
+**Primero que nada debes adquirir el repositorio!**
+Puedes descargar la carpeta .ZIP del repositorio o clonarlo. Para clonar este repositorio en tu máquina local, sigue estos pasos:
+
+1. Abre una terminal o símbolo del sistema en tu computadora.
+2. Navega al directorio donde deseas clonar el repositorio (por ejemplo, `cd ruta/del/directorio`).
+3. Copia el siguiente comando: 
+
+```bash
+$ git clone https://github.com/Maidana0/StudyHub.git
+```
+**A continuación, instalaremos las dependencias:**
+
+Asegúrate de tener Python instalado en tu sistema. Luego, desde la línea de comandos, ejecuta:
 
 
-# Modelos en la aplicación de Blog
-- 1 | Career
-- 2 | Subject
-- 3 | Publication
+```bash
+$ pip install -r requirements.txt
+```
 
+Este comando incluira los siguientes paquetes. Si lo deseas, puedes instalarlos individualmente.
 
+	Django==5.0.2
+	pillow==10.2.0
+	django-tinymce==3.7.1
+
+## Iniciar Aplicación
+Una vez instaladas las dependencias, deberas ejecutar los siguientes comandos en la consola para iniciar el servidor.
+
+```bash
+$ python manage.py collectstatic
+$ python manage.py runserver
+```
+
+Con el primer comando, estamos es recolectando todos los archivos estáticos del proyecto en un solo lugar, especificamente para el DEBUG = False
+Con el "runserver" estamos inicializando el servidor en nuestro local host con el puerto estandar de django "8000":
+Podras acceder desde esta url:
+http://127.0.0.1:8000/
+
+Puedes ver el siguiente video en youtube para visualizar la navegación y funcionalidades del sitio:
+https://www.youtube.com/

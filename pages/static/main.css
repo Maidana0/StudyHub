@@ -21,11 +21,9 @@ body {
 
 body {
     background-color: #F8F6F4;
-    /* background-color: #222831; */
-    background-image: url("images/gohan.png");
-    background-position: right;
+    background-image: url("images/background-icon.webp");
+    background-position: 50% 80%;
     background-repeat: no-repeat;
-    background-size: contain;
     background-attachment: fixed;
 }
 
@@ -42,9 +40,6 @@ main {
     margin-bottom: 4rem;
 }
 
-/* .bg-dark {
-    background-color: rgba(3, 3, 3, 0.95) !important
-} */
 
 .custom-link {
     text-transform: uppercase;
@@ -58,7 +53,9 @@ main {
     box-shadow: 3px 8px 25px rgba(0, 0, 0, 0.35);
     border-radius: 3px;
 }
-
+.gohan-image{
+    filter: drop-shadow(0 0 10px #c0392b);
+}
 .bi {
     width: auto !important;
     height: auto !important;
@@ -82,12 +79,6 @@ main {
 form .form-control:focus {
     border: var(--bs-border-width) solid #c0392b; 
     box-shadow: 0 0 10px 4px #c0392b;
-}
-
-@media (max-width:768px) {
-    body {
-        background-size: 65%;
-    }
 }
 
 @media (min-width:768px) {
