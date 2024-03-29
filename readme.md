@@ -41,7 +41,7 @@ user_publications = Publications.objects
 ```
 
 ## Instalación de Dependencias
-
+_Recomendamos continuar dentro de un entorno virtual._
 **Primero que nada debes adquirir el repositorio!**
 Puedes descargar la carpeta .ZIP del repositorio o clonarlo. Para clonar este repositorio en tu máquina local, sigue estos pasos:
 
