@@ -106,7 +106,7 @@ def profile_request(request):
 
         if profile_form.is_valid():
             profile_form.save()
-            return redirect(reverse_lazy("account:profile"))
+        return redirect(reverse_lazy("account:profile"))
     else:
         profile_form = CustomProfileForm(
             instance=profile,
@@ -149,6 +149,7 @@ class CustomPasswordReset(auth_views.PasswordResetView):
     template_name = "password_reset.html"
     success_url = reverse_lazy("account:password_reset_done")
     extra_context = {"site": "password_reset"}
+    email_template_name = "password_reset_email.html"
 
     def post(self, request, *args, **kwargs):
         email = request.POST.get("email")

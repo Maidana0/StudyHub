@@ -79,5 +79,7 @@ class CustomProfileForm(CustomFields, forms.ModelForm):
             user_instance.save()
 
         if commit:
-            profile_instance.save()
+            if not user_instance.username in profile_instance.avatar.url:
+                profile_instance.save()
+
         return profile_instance

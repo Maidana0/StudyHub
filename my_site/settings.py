@@ -26,7 +26,6 @@ SECRET_KEY = "django-insecure-a%me@ag%m@5v*8(s2gmce8a!ry$bwa&gu6bzn*s#b86+v-+#(9
 DEBUG = False
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,7 +55,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "my_site.urls"
-# POR SI NO ME ENCUENTRA LOS TEMPLATES os.path.join(BASE_DIR, "paages/templates")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -130,8 +128,6 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-# import enchant
-# enchant.dict_exists('es')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -141,10 +137,10 @@ TINYMCE_DEFAULT_CONFIG = {
     "width": "100%",
     "menubar": "file edit view insert format tools table help",
     "plugins": "advlist autolink lists link image charmap print preview searchreplace"
-    "fullscreen insertdatetime media table code help wordcount emoticons ",
+    "fullscreen insertdatetime media table code help wordcount emoticons formatselect",
     "toolbar": "undo redo | bold italic underline strikethrough |"
     "pagebreak |forecolor backcolor casechange  permanentpen formatpainter removeformat | charmap emoticons |"
-    "fontselect fontsizeselect formatselect"
+    "fontselect fontsizeselect formatselect format"
     "fullscreen  preview save print | image media  link codesample | "
     "| alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | searchreplace",
     "custom_undo_redo_levels": 10,
@@ -161,3 +157,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "equipo.maidana.franco07@gmail.com"
 EMAIL_HOST_PASSWORD = "zyce svgl eyil wwnv"
+PASSWORD_RESET_EMAIL_TEMPLATE = "password_reset_email.html"

@@ -11,29 +11,27 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="Profile")
-    avatar = models.ImageField(upload_to="avatars/", default="avatars/default_avatar.png")
+    avatar = models.ImageField(upload_to="avatars", default="avatars/default_avatar.png")
 
     @property
     def user_publications(self):
         return self.user.publications.all()
 
     def save(self, *args, **kwargs):
-        if self.pk and self.avatar.name != "avatars/default_avatar.png":
+        if self.pk and self.avatar:
             old_profile = Profile.objects.get(pk=self.pk)
-            default_image_path = os.path.join(
-                settings.MEDIA_ROOT, "avatars/default_avatar.png"
-            )
-            if (
-                old_profile.avatar.path != self.avatar.path
-                and old_profile.avatar.path != default_image_path
-            ):
-                # SI EL ARCHIVO YA EXISTE LO BORRO
-                default_storage.delete(old_profile.avatar.path)
-                # ESTO ES PARA CAMBIARLE EL NOMBRE AL AVATAR CREADO
-                if old_profile.avatar.path != default_image_path:
-                    filename, ext = os.path.splitext(self.avatar.name)
-                    self.avatar.name = self.user.username + "_avatar" + ext
 
+            if (
+                "_avatar" in old_profile.avatar.name
+                and old_profile.avatar.name != "avatars/default_avatar.png"
+            ):
+                # SI EL ARCHIVO YA EXISTE Y NO ES EL DETERMINADO, LO BORRO
+                default_storage.delete(old_profile.avatar.path)
+
+            # ESTO ES PARA CAMBIARLE EL NOMBRE AL AVATAR CREADO
+            if self.avatar.name != "avatars/default_avatar.png":
+                filename, ext = os.path.splitext(self.avatar.name)
+                self.avatar.name = self.user.username + "_avatar" + ext
         super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):

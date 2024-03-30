@@ -11,6 +11,13 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{%static 'main.css'%}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <meta property="og:image" content="{% static 'images/logo.webp' %}">
+    <link rel="icon" href="{% static 'images/logo.webp' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static 'images/logo.webp' %}">
+    <link rel="image_src" href="{% static 'images/logo.webp' %}">
+    <meta name="author" content="Maidana Franco Gabriel">
+    <meta name="description" content="Puedes guardar tus apuntes universitarios en su materia correspondiente! Prueba guardarlas en nuestro repositorio de apuntes y resumenes para facilar tu acceso a ellos!">
+    <meta name="keywords" content="Universidad, carreras, materias, apuntes, resumenes, estudiar, studyhub, franco, maidana, pythonanywhere, django, python, gohan, guardar mis apuntes, guardar mis resumenes">
 
     {% block stylesheet %} {% endblock stylesheet %}
 
@@ -42,8 +49,8 @@
         {% block content %} {% endblock content %}
     </main>
     <footer class="text-light mt-auto bg-dark text-center align-middle p-4">
-        <a class="small link-light link-underline-opacity-0" href="{% url 'about' %}">Acerca de Mí</a>
-        <p class="m-0 text-secondary small fw-light">Este sitio web fue creado para practicar con python, ya que es mi primer sitio web utilizando Django <3</p>
+        <a class="small mt-1 link-light link-underline-opacity-0" href="{% url 'about' %}">Acerca de Mí</a>
+        <p class="mb-0 mt-2 text-secondary small fw-light">Mi primer sitio web utilizando Django</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

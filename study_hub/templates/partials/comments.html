@@ -30,7 +30,7 @@
     <div class="d-flex justify-content-start gap-2 align-items-center py-3">
       <img id="avatar_img" src="{{ comment.author.Profile.avatar.url }}" class="rounded-circle"
         style="width: 45px;height:45px; object-fit:contain; background-color: #1e2e33;" alt="avatar">
-      <h5 class="text-truncate"> {{ publication.author.first_name }} {{ publication.author.last_name }}:</h5>
+      <h5 class="text-truncate"> {{ comment.author.first_name }} {{ comment.author.last_name }}:</h5>
     </div>
     <div class="px-1">
       {{comment.comment|safe}}

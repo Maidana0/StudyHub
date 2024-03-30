@@ -5,7 +5,7 @@
 <style>
     .study-hub {
         background-image: url("{% static '/images/study.webp' %}");
-        
+
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
@@ -15,12 +15,14 @@
         align-items: center;
         overflow-y: scroll;
     }
-    .study-hub p{
+
+    .study-hub p {
         width: 90%;
         line-height: 1.75em;
         letter-spacing: 1px;
         font-weight: 500;
     }
+
     .nav {
         background-color: #c0392b;
     }
@@ -39,29 +41,44 @@
     .content {
         background-color: rgba(255, 255, 255);
     }
+
     @media (max-width:576px) {
-        .study-hub{
+        .study-hub {
             margin-bottom: -4rem;
             background-position: 80%;
             height: calc(100vh - 60px);
         }
-        .content{
+
+        .content {
             margin-bottom: -4rem;
         }
+
+        .message {
+            position: fixed !important;
+            width: 80% !important;
+            left: 10% !important;
+        }
+        .study-hub p{
+            font-size: 1.15rem!important ;   
+            line-height: 1.6em!important; 
+
+        }
     }
+
     @media (min-width:576px) {
         .row {
             margin-bottom: -4rem !important;
         }
 
-        .nav,.content{
+        .nav,
+        .content {
             height: calc(100vh - 60px);
         }
 
         .career-link {
             padding: 0 8px !important;
         }
-        
+
         .nav,
         .content>div:nth-of-type(2) {
             overflow-y: scroll;
@@ -72,7 +89,7 @@
 
 {% block content%}
 {% if messages %} {% for message in messages %}
-<div class="position-absolute bottom-0 start-50 animation-swing">
+<div class="message position-absolute bottom-0 start-50 animation-swing">
     <div class=" my-3 container alert alert-{% if user.is_authenticated and message.tags == 'success' %}success{% else %}danger{% endif %}"
         role="alert">{{message}}</div>
 </div>{% endfor %}{% endif %}
@@ -80,7 +97,7 @@
 
 <div class="row mx-0 my-0 w-100">
     <ul
-        class="nav bg-gradient py-3 py-sm-0 col-sm-3 col-12 d-flex justify-content-evenly flex-sm-column flex-sm-nowrap flex-wrap gap-sm-0 gap-2">
+        class="nav bg-gradient py-4 py-sm-0 col-sm-3 col-12 d-flex justify-content-evenly flex-sm-column flex-sm-nowrap flex-wrap gap-sm-0 gap-2">
         {% for career in list_careers %}
         <li class="ps-1 text-light text-center">
             <a class="career-link" href="/?career={{career.pk|urlencode}}">
@@ -93,9 +110,9 @@
 
 
     {% if career %}
-    <div class="content col-sm-9 col-12 py-sm-5 py-3 d-flex justify-content-between flex-column">
+    <div class="content col-sm-9 col-12 py-5 d-flex justify-content-between flex-column">
 
-        <div class="row mx-0 w-100 align-items-center justify-content-center my-sm-0 my-5">
+        <div class="row mx-0 w-100 align-items-center justify-content-center my-sm-0 mt-2 mb-4">
             <h4 class="col-7 p-0 text-start">{{career.title}}</h4>
             <h6 class="col-5 p-0 text-end">{{career.university}}</h6>
             <p class="mt-1 mb-0 col-12 col-sm-5 text-start">
@@ -110,37 +127,42 @@
         <hr>
         {% if subjects|length >= 1 %}
         <div class="d-flex flex-column gap-3 ">
-            <h5 class="bg-dark bg-gradient rounded-4 p-4 text-light my-sm-1 my-3 mx-auto" style="--bs-bg-opacity: 0.9;width: fit-content;">Materias guardadas:</h5>
+            <h5 class="bg-dark bg-gradient rounded-4 p-4 text-light my-sm-1 my-3 mx-auto"
+                style="--bs-bg-opacity: 0.9;width: fit-content;">Materias guardadas:</h5>
             {% for subject in subjects %}
             <div class="container d-flex px-sm-5 px-2 align-items-center  justify-content-between">
                 <a class="link-dark fs-5 fw-medium link-underline-opacity-0 link-underline-opacity-75-hover"
-                 href="{% url 'apuntes:publications' subject=subject.name id=subject.pk %}">{{subject.name}}</a>
+                    href="{% url 'apuntes:publications' subject=subject.name id=subject.pk %}">{{subject.name}}</a>
                 <small>Código: <span class="fw-normal">{{subject.code}}</span></small>
             </div>
             {% endfor %}
-            <small class="mt-3 text-secondary fw-lighter text-center">Puedes hacer click en la materia para ver sus publicaciones.</small>
+            <small class="mt-3 text-secondary fw-lighter text-center">Puedes hacer click en la materia para ver sus
+                publicaciones.</small>
         </div>
         {% else %}
-        <h5 class="bg-dark bg-gradient w-75 rounded-4 p-4 text-center text-light my-sm-1 my-3 mx-auto" style="--bs-bg-opacity: 0.9;width: fit-content;">
-           Por el momento la carrera de "{{career.title}}" no tiene materias guardadas.
+        <h5 class="bg-dark bg-gradient w-75 rounded-4 p-4 text-center text-light my-sm-1 my-3 mx-auto"
+            style="--bs-bg-opacity: 0.9;width: fit-content;">
+            Por el momento la carrera de "{{career.title}}" no tiene materias guardadas.
         </h5>
 
         {% endif %}
-            
+
 
 
 
     </div>
     {% else %}
-    <div class="col-12 col-sm-9  text-center study-hub py-3 gap-3">
+    <div class="col-12 col-sm-9  text-center study-hub py-sm-3 py-5 gap-3">
         <div class="mx-auto bg-dark bg-gradient text-light p-sm-4 p-3 rounded-5" style="--bs-bg-opacity: 0.9">
             <h1>Bienvenido a StudyHub!</h1>
             <h5>Un sitio para guardar tus apuntes y/o resumenes de materias</h5>
         </div>
 
-        <div class="mx-auto bg-light p-3 rounded-5 shadow-lg" style="--bs-bg-opacity: 0.9">
-            <p class="mb-0 mx-auto fs-5">Una vez que inicies sesión, podras agregar tu carrera para guardar tus materias y escribir publicaciones en ellas.</p>
-            <p class="mt-3 mb-0 mx-auto fs-5">Ademas, podras observar las publicaciones de otros usuarios, navegar en ellas y dar tu opinion comentando en su publicación.  </p>
+        <div class="mx-auto bg-light py-3 px-1 px-sm-4 rounded-5 shadow-lg" style="--bs-bg-opacity: 0.9">
+            <p class="mb-0 mx-auto fs-5">Una vez que inicies sesión, podras agregar tu carrera para guardar tus materias
+                y escribir publicaciones en ellas.</p>
+            <p class="mt-2 mb-0 mx-auto fs-5">Ademas, podras observar las publicaciones de otros usuarios, navegar en
+                ellas y dar tu opinion comentando en su publicación. </p>
         </div>
     </div>
     {% endif %}
