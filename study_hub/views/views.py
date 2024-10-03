@@ -26,7 +26,7 @@ def study(request):
         request,
         "study.html",
         {
-            "title": "Apuntes",
+            "title": "Materias",
             "list": list,
             "careers": careers,
             "subjects": subjects,

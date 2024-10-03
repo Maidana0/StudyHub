@@ -1,0 +1,35 @@
+<div class="container-fluid d-flex align-items-center
+justify-content-{% if page_obj.has_previus or page_obj.has_next %}between{% else %}center{% endif %}">
+    {% if page_obj.has_previous %}
+    <div class="d-flex align-items-center gap-2">
+        <div class="bg-danger bg-gradient p-2 rounded">
+            <a href="?page={{ page_obj.previous_page_number }}" class="link-light px-2 h5">
+                &laquo;
+            </a>
+        </div>
+        <div class="bg-danger bg-gradient p-2 rounded">
+            <a href="?page={{ page_obj.previous_page_number }}" class="link-light px-2">
+                Anterior
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="bg-danger bg-gradient text-light p-2 rounded">
+        Página {{ page_obj.number }} de {{ paginator.num_pages }}
+    </div>
+
+    {% if page_obj.has_next %}
+    <div class="d-flex align-items-center gap-2">
+        <div class="bg-danger bg-gradient p-2 rounded">
+            <a href="?page={{ page_obj.next_page_number }}" class="link-light px-2">Siguiente</a>
+        </div>
+
+        <div class="bg-danger bg-gradient p-2 rounded">
+            <a class="link-light px-2 h5" href="?page={{ page_obj.paginator.num_pages }}">
+                &raquo;
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>

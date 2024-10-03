@@ -115,3 +115,16 @@ class PublicationDeleteView(LoginRequiredMixin, DeleteView):
         context["delete"] = True
         context["form"] = False
         return context
+
+
+#  LA IDEA VA A SER OBTENER TODAS LAS PUBLICACIONES
+class AllPublicationsListView(ListView):
+    model = Publication
+    template_name = "all_publications.html"
+    context_object_name = "publications"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Publicaciones"
+        return context

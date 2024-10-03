@@ -12,6 +12,8 @@ app_name = "apuntes"
 urlpatterns = [
     # pagina inicial, donde aparece el listado de carreras y materias
     path("", study, name="hub"),
+    # pagina para ver todas las publicaciones
+    path("publicaciones/", AllPublicationsListView.as_view(), name="all_publications"),
     # pagina para ver las publicaciones de determinada materia (id) de la carrera (title)
     # CAREER REQUESTS
     path("career/", add_career, name="add_career"),

@@ -84,24 +84,7 @@
 
 
 
-  <div class="container-fluid d-flex  align-items-center
-  justify-content-{% if page_obj.has_previus or page_obj.has_next %}between{% else %}center{% endif %}">
-    {% if page_obj.has_previous %}
-    <div class="bg-danger bg-gradient p-2 rounded">
-      <a href="?page={{ page_obj.previous_page_number }}" class="link-light px-2">&laquo; Anterior</a>
-    </div>
-    {% endif %}
-
-    <div class="bg-danger bg-gradient text-light p-2 rounded">
-      Página {{ page_obj.number }} de {{ paginator.num_pages }}
-    </div>
-
-    {% if page_obj.has_next %}
-    <div class="bg-danger bg-gradient p-2 rounded">
-      <a href="?page={{ page_obj.next_page_number }}" class="link-light px-2">Siguiente &raquo;</a>
-    </div>
-    {% endif %}
-  </div>
+  {% include 'partials/pagination.html' %}
 </div>
 
 {% endblock %}

@@ -25,6 +25,7 @@
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
+        cursor: pointer;
     }
 
     .container {
@@ -54,23 +55,23 @@
         cursor: no-drop;
     }
 
-    .page-item .page-link{
-        color: black!important;
+    .page-item .page-link {
+        color: black !important;
         border-color: #ff190085 !important;
     }
 
     .active>.page-link {
         background-color: #ff1900 !important;
         border-color: #ff1900 !important;
-        color: #fff!important;
+        color: #fff !important;
 
     }
-    .page-item .page-link:hover{
-        background: #ff1900a8!important;
-        color: #fff!important;
+
+    .page-item .page-link:hover {
+        background: #ff1900a8 !important;
+        color: #fff !important;
 
     }
-    
 </style>
 {% endblock stylesheet %}
 
@@ -99,7 +100,9 @@
                 </a>
             </div>
 
-            <div class="my-publication-content my-3 mx-auto py-2 px-3 bg-secondary rounded">
+            <div class="my-publication-content my-3 mx-auto py-2 px-3 bg-secondary rounded"
+                id="publication-content-{{publication.id}}"
+                aria-details="{{publication.subject.name}}-{{publication.subject.id}}">
                 {{publication.content|safe}}
             </div>
 
@@ -144,3 +147,16 @@
 </div>
 
 {% endblock content %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+    const publication = document.querySelectorAll(".my-publication-content")
+    publication.forEach(content => {
+        const [subject, subjet_id] = content.getAttribute("aria-details").split("-")
+        content.addEventListener("click", () => {
+            window.location.href = `/apuntes/${subject}/${subjet_id}/publicacion/${content.id.split("-")[2]}`
+        })
+    })
+</script>
+{% endblock scripts %}
