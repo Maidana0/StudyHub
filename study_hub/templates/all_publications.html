@@ -6,6 +6,16 @@
     a {
         text-decoration: none;
     }
+
+    .card-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 4.5em;
+        line-height: 1.5em;
+    }
 </style>
 {% endblock stylesheet %}
 
@@ -15,11 +25,33 @@
 </h1>
 {% endblock header %}
 
-
 {% block content %}
-{% for publication in publications%}
-
-{% endfor %}
+<div class="container mt-4">
+    <div class="row">
+        {% for publication in publications %}
+        <article class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ publication.title }}</h5>
+                    <div class="card-text text-truncate text-wrap">{{ publication.content|safe }}</div>
+                    <div class="text-end">
+                        <a
+                         href="{% url 'apuntes:publication_detail' subject=publication.subject id=publication.subject.id pk=publication.id %}"
+                            class="btn btn-primary btn-sm">
+                            Leer más
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted text-end text-truncate">
+                    <small title="{{ publication.author.username }} - {{ publication.publication_date|date:'d M Y' }}">
+                        Publicado por {{ publication.author.username }} el {{ publication.publication_date|date:"d M Y" }}
+                    </small>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
 
 {% include 'partials/pagination.html' %}
 {% endblock content %}
