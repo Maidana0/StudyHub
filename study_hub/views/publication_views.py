@@ -7,6 +7,7 @@ from .views import get_subject_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import Comment
 from urllib.parse import urlencode
+from django.core.paginator import EmptyPage, PageNotAnInteger
 
 
 def _success_url(self):
@@ -117,7 +118,7 @@ class PublicationDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-#  LA IDEA VA A SER OBTENER TODAS LAS PUBLICACIONES
+#  OBTENER TODAS LAS PUBLICACIONES
 class AllPublicationsListView(ListView):
     model = Publication
     template_name = "all_publications.html"
@@ -128,3 +129,23 @@ class AllPublicationsListView(ListView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Publicaciones"
         return context
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(queryset, page_size)
+        page = self.request.GET.get("page")
+
+        try:
+            page_number = int(page)
+        except (TypeError, ValueError):
+            page_number = 1
+
+        try:
+            page_obj = paginator.page(page_number)
+        except EmptyPage or PageNotAnInteger:
+            page_obj = paginator.page(paginator.num_pages)
+
+        return (paginator, page_obj, page_obj.object_list, page_obj.has_other_pages())
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by("-publication_date")

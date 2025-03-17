@@ -3,10 +3,6 @@
 
 {% block stylesheet %}
 <style>
-    a {
-        text-decoration: none;
-    }
-
     .card-text {
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -31,7 +27,7 @@
         {% for publication in publications %}
         <article class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title text-primary">{{ publication.title }}</h5>
                     <div class="card-text text-truncate text-wrap">{{ publication.content|safe }}</div>
                     <div class="text-end">

@@ -1,11 +1,11 @@
 from django.db.models import (
     Model,
     CharField,
-    TextField,
     DateTimeField,
     ForeignKey,
     IntegerField,
     DecimalField,
+    BooleanField,
     CASCADE,
 )
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -48,6 +48,7 @@ class Publication(Model):
     content = tinymce_models.HTMLField()
     publication_date = DateTimeField(auto_now_add=True)
     subject = ForeignKey(Subject, on_delete=CASCADE, blank=False)
+    isPrivate = BooleanField(default=False)
 
     def __str__(self):
         return self.title
