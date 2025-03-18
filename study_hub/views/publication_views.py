@@ -1,38 +1,35 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import DetailView
 from study_hub.forms.comment import CommentForm
 from study_hub.models import Publication
-from django.urls import reverse_lazy
 from .views import get_subject_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import Comment
-from urllib.parse import urlencode
-from django.core.paginator import EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from .publication_base_views import (
+    DeleteViewWithSuccessURL,
+    PaginatedListView,
+    CreateViewWithSuccessURL,
+    UpdateViewWithSuccessURL,
+)
 
 
-def _success_url(self):
-    base_url = reverse_lazy(
-        "apuntes:publication_detail",
-        kwargs={
-            "subject": self.kwargs["subject"],
-            "id": self.kwargs["id"],
-            "pk": self.object.pk,
-        },
-    )
-    query_params = urlencode({"publicacion": "nueva"})
-    return f"{base_url}?{query_params}"
+def _filterPrivatePublications(request, queryset):
+    # filtrar publicaciones privadas que no pertenecen al usuario actual
+    if not request.user.is_authenticated:
+        queryset = queryset.filter(isPrivate=False)
+    else:
+        queryset = queryset.filter(Q(isPrivate=False) | Q(author=request.user))
+
+    return queryset.order_by("-publication_date")
 
 
-class PublicationsListView(ListView):
-    model = Publication
+class PublicationsListView(PaginatedListView):
     template_name = "list_publications.html"
-    context_object_name = "publications"
-    paginate_by = 10
 
     # realizo el filtrado obteniendo la query id
     def get_queryset(self):
-        publications_filter = Publication.objects.filter(subject=self.kwargs["id"])
-        return publications_filter.order_by("-publication_date")
+        queryset = Publication.objects.filter(subject=self.kwargs["id"])
+        return _filterPrivatePublications(self.request, queryset)
 
     # agrego valores al contexto
     def get_context_data(self, **kwargs):
@@ -63,13 +60,8 @@ class PublicationDetailView(DetailView):
         return context
 
 
-class PublicationCreateView(LoginRequiredMixin, CreateView):
-    model = Publication
-    fields = ["title", "author", "content", "subject"]
-    template_name = "publication.html"
-
-    def get_success_url(self):
-        return _success_url(self)
+class PublicationCreateView(LoginRequiredMixin, CreateViewWithSuccessURL):
+    fields = ["title", "author", "content", "subject", "isPrivate"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,13 +71,8 @@ class PublicationCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class PublicationUpdateView(LoginRequiredMixin, UpdateView):
-    model = Publication
-    template_name = "publication.html"
-    fields = ["title", "author", "content", "subject"]
-
-    def get_success_url(self):
-        return _success_url(self)
+class PublicationUpdateView(LoginRequiredMixin, UpdateViewWithSuccessURL):
+    fields = ["title", "author", "content", "subject", "isPrivate"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,16 +83,8 @@ class PublicationUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class PublicationDeleteView(LoginRequiredMixin, DeleteView):
-    model = Publication
-    template_name = "publication.html"
+class PublicationDeleteView(LoginRequiredMixin, DeleteViewWithSuccessURL):
     context_object_name = "publication"
-
-    def get_success_url(self):
-        return reverse_lazy(
-            "apuntes:publications",
-            kwargs={"subject": self.kwargs["subject"], "id": self.kwargs["id"]},
-        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -119,33 +98,15 @@ class PublicationDeleteView(LoginRequiredMixin, DeleteView):
 
 
 #  OBTENER TODAS LAS PUBLICACIONES
-class AllPublicationsListView(ListView):
-    model = Publication
+class AllPublicationsListView(PaginatedListView):
     template_name = "all_publications.html"
-    context_object_name = "publications"
-    paginate_by = 10
+    paginate_by = 9
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Publicaciones"
         return context
 
-    def paginate_queryset(self, queryset, page_size):
-        paginator = self.get_paginator(queryset, page_size)
-        page = self.request.GET.get("page")
-
-        try:
-            page_number = int(page)
-        except (TypeError, ValueError):
-            page_number = 1
-
-        try:
-            page_obj = paginator.page(page_number)
-        except EmptyPage or PageNotAnInteger:
-            page_obj = paginator.page(paginator.num_pages)
-
-        return (paginator, page_obj, page_obj.object_list, page_obj.has_other_pages())
-
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.order_by("-publication_date")
+        return _filterPrivatePublications(self.request, queryset)

@@ -106,8 +106,16 @@
                 {{publication.content|safe}}
             </div>
 
-            <p class="text-end text-secondary p-2"> <small>{{publication.publication_date}}</small> </p>
-
+            <p class="position-absolute button-0 text-start">
+                {% if publication.isPrivate %}
+                <span class="badge bg-danger">Privado</span>
+                {% else %}
+                <span class="badge bg-success">Público</span>
+                {% endif %}
+            </p>
+            <p class="text-end text-secondary p-2 text-truncate">
+                <small>{{publication.publication_date}}</small>
+            </p>
         </div>
     </div>
     {% endfor %}

@@ -30,7 +30,7 @@
 
 {% block content %}
 
-<div style="width: 96%; overflow-x: scroll; hyphens: auto;"
+<div style="width: 96.5%; overflow-x: scroll; hyphens: auto;"
   class="bg-light text-break shadow rounded mb-2 mx-auto py-4 {% if delete %}bg-danger-subtle{% endif %}">
 
   {% if form %}
@@ -54,7 +54,7 @@
     <h2 class="fs-2 rounded" id="id_title">{{ publication.title }}</h2>
   </div>
 
-  <div class="publication_content px-2 my-4">
+  <div class="publication_content px-4 my-4">
     {{ publication.content|safe }}
   </div>
   <!-- footer with info -->
