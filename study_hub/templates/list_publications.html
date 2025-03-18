@@ -12,7 +12,7 @@
 
 
 
-<div class="container d-flex justify-content-between">
+<div class="container d-flex justify-content-between flex-wrap gap-1">
   <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
     style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
     <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
@@ -51,13 +51,24 @@
 
         {% if publication.author == user %}
         <th class="col-2">
+
+          {% if not publication.isPrivate %}
+          <a style="text-decoration:none" title="Publicación Pública" href="#">
+            <img alt="public-icon" class="p-1" src="{%static '/images/public.svg'%}">
+          </a>
+          {% else %}
+          <a style="text-decoration:none" title="Publicación Privada" href="#">
+            <img alt="private-icon" class="p-1" src="{%static '/images/private.svg'%}">
+          </a>
+          {% endif %}
+
           <a style="text-decoration:none" title="Editar Publicación"
             href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
-            <img alt="edit-icon" class="ms-1" src="{%static '/images/edit.svg'%}">
+            <img alt="edit-icon" class="p-1" src="{%static '/images/edit.svg'%}">
           </a>
           <a style="text-decoration:none" title="Borrar Publicación"
             href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
-            <img alt="delete-icon" class="ms-1" src="{%static '/images/delete.svg'%}">
+            <img alt="delete-icon" class="p-1" src="{%static '/images/delete.svg'%}">
           </a>
         </th>
         {% else %}

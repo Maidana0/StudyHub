@@ -2,8 +2,9 @@
 <form method="POST" action="" style="width: 100%;height: auto;">
   {% csrf_token %}
   {{ form.media }}
-  <input class="fs-2 fw-semibold px-2 my-2 rounded input_id_title" autocomplete="off" id="id_title" type="text" placeholder="Escriba su título principal..."
-    name="title" maxlength="60" value="{% if form.instance.title %}{{ form.instance.title }}{% endif %}">
+  <input class="fs-2 fw-semibold px-2 my-2 rounded input_id_title" autocomplete="off" id="id_title" type="text"
+    placeholder="Escriba su título principal..." name="title" maxlength="60"
+    value="{% if form.instance.title %}{{ form.instance.title }}{% endif %}">
   {{form.title.errors}}
 
   <div class="publication_content px-2 my-2">
@@ -32,10 +33,11 @@
     <div class="d-flex align-items-center gap-2" style="padding-left: calc(60px + .5rem);">
       <select name="isPrivate" id="id_isPrivate" class="form-select-sm" style="width:200px;">
         <option {% if not form.instance.isPrivate %} selected {% endif %} value="{{False}}">
-          Público 🌍
+          Público <img alt="public-icon" class="ms-1" src="{%static '/images/public.svg'%}">
         </option>
+
         <option {% if form.instance.isPrivate %} selected {% endif %} value="{{True}}">
-          Privado 🔒
+          Privado <img alt="private-icon" class="ms-1" src="{%static '/images/private.svg'%}">
         </option>
       </select>
     </div>

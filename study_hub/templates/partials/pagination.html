@@ -1,6 +1,5 @@
-<div class="container d-flex align-items-center
-justify-content-between">
-    <div class="d-flex align-items-center gap-2">
+<div class="container d-flex align-items-center justify-content-between overflow-x-hidden">
+    <div class="d-flex align-items-center gap-1">
 
         <div class="bg-danger bg-gradient p-2 rounded {% if not page_obj.has_previous %} opacity-50  {% endif %}">
             <a href="
@@ -14,7 +13,7 @@ justify-content-between">
             </a>
         </div>
 
-        <div class="bg-danger bg-gradient p-2 rounded {% if not page_obj.has_previous %} opacity-50  {% endif %}">
+        <div class="nowrap text-truncate bg-danger bg-gradient p-2 rounded {% if not page_obj.has_previous %} opacity-50  {% endif %}">
             <a href="
             {% if page_obj.has_previous %}
             ?page={{ page_obj.previous_page_number }}
@@ -27,12 +26,12 @@ justify-content-between">
         </div>
     </div>
 
-    <div class="bg-danger bg-gradient text-light p-2 rounded">
-        Página {{ page_obj.number }} de {{ paginator.num_pages }}
+    <div class="bg-danger bg-gradient text-light p-2 rounded nowrap text-truncate">
+        <span class="d-none d-md-inline"> Página</span> {{ page_obj.number }} de {{ paginator.num_pages }}
     </div>
 
-    <div class="d-flex align-items-center gap-2">
-        <div class="bg-danger bg-gradient p-2 rounded {% if not page_obj.has_next %} opacity-50  {% endif %}">
+    <div class="d-flex align-items-center gap-1">
+        <div class="nowrap text-truncate bg-danger bg-gradient p-2 rounded {% if not page_obj.has_next %} opacity-50  {% endif %}">
             <a href="
             {% if page_obj.has_next %}
             ?page={{ page_obj.next_page_number }}
