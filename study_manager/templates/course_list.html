@@ -1,31 +1,65 @@
 {% extends 'layout.html' %}
+{% load static %}
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+    {{title}}
+</h1>
+
+
+<div class="container d-flex justify-content-between flex-wrap gap-1">
+    <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
+        <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+        Volver
+    </a>
+
+    <a class="custom-link text-light icon-link link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        href="{% url 'study_manager:course_add' %}">
+
+        <img class="bi fs-4" alt="add-icon" aria-hidden="true" src="{%static '/images/add.svg'%}">
+        Agregar Curso
+    </a>
+</div>
+
+{% endblock header %}
+
+
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Materias</h2>
-    <a href="{% url 'subject_add' %}" class="btn btn-primary mb-3">Agregar Materia</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Código</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for subject in subjects %}
-            <tr>
-                <td>{{ subject.name }}</td>
-                <td>{{ subject.code }}</td>
-                <td>
-                    <a href="{% url 'subject_edit' subject.pk %}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{% url 'subject_delete' subject.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
-                    <a href="{% url 'absence_list' subject.pk %}" class="btn btn-info btn-sm">Asistencias</a>
-                    <a href="{% url 'exam_list' subject.pk %}" class="btn btn-secondary btn-sm">Exámenes</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <div class="container my-3 table-responsive">
+
+        <table class="table table-hover table-striped align-middle shadow-sm">
+            <thead>
+                <tr class="table-dark">
+                    <th>Nombre</th>
+                    <th>Horario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for course in courses %}
+                <tr>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.schedule }}</td>
+                    <td>
+                        <a href="{% url 'study_manager:course_edit' course.pk %}"
+                            class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'study_manager:course_delete' course.pk %}"
+                            class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="{% url 'study_manager:absence_list' course.pk %}"
+                            class="btn btn-info btn-sm">Asistencias</a>
+                        <a href="{% url 'study_manager:exam_list' course.pk %}"
+                            class="btn btn-secondary btn-sm">Exámenes</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
 </div>
-{% endblock %}
+{% endblock content %}

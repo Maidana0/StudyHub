@@ -7,7 +7,7 @@
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a href="{% url 'exam_list' subject.id %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'study_manager:exam_list' course.id %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}

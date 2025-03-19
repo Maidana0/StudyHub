@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Asistencias en {{ subject.name }}</h2>
-    <a href="{% url 'absence_add' subject.id %}" class="btn btn-primary mb-3">Agregar Asistencia</a>
+    <h2>Asistencias en {{ course.name }}</h2>
+    <a href="{% url 'study_manager:absence_add' course.id %}" class="btn btn-primary mb-3">Agregar Asistencia</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -18,7 +18,8 @@
                 <td>{{ absence.date }}</td>
                 <td>{{ absence.reason }}</td>
                 <td>
-                    <a href="{% url 'absence_delete' subject.id absence.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="{% url 'study_manager:absence_delete' course.id absence.pk %}"
+                        class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}

@@ -1,12 +1,33 @@
 {% extends 'layout.html' %}
 
+{% block stylesheet %}
+<style>
+    label {
+        display: none;
+    }
+
+    .helptext {
+        color: var(--bs-secondary);
+        padding-left: 15px;
+    }
+
+    .errorlist {
+        color: darkred;
+    }
+</style>
+{% endblock stylesheet%}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>{% if object %}Editar Materia{% else %}Agregar Materia{% endif %}</h2>
-    <form method="post">
+<div class="container mt-5">
+    <form method="post" class="container col-md-5">
+        <h2 class="mb-4">{% if object %}Editar Materia{% else %}Agregar Materia{% endif %}</h2>
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Guardar</button>
+
+        <div class="d-flex flex-column gap-2 justify-content-center align-items-center mt-4">
+            <button type="submit" class="btn btn-success w-75">Guardar</button>
+            <a href="javascript:history.back()" class="btn btn-secondary w-75">Cancelar</a>
+        </div>
     </form>
 </div>
 {% endblock %}
