@@ -50,23 +50,25 @@
         <th class="col-3 small fw-light">{{publication.publication_date}}</th>
 
         {% if publication.author == user %}
-        <th class="col-2">
+        <th class="col-2" style="pointer-events: none;">
 
-          {% if not publication.isPrivate %}
-          <a style="text-decoration:none" title="Publicación Pública" href="#">
-            <img alt="public-icon" class="p-1" src="{%static '/images/public.svg'%}">
-          </a>
-          {% else %}
-          <a style="text-decoration:none" title="Publicación Privada" href="#">
-            <img alt="private-icon" class="p-1" src="{%static '/images/private.svg'%}">
-          </a>
-          {% endif %}
+          <form method="POST" action="{% url 'apuntes:change_post_privacy' publication.pk %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="all:unset; pointer-events: all;"
+              title="Cambiar a {%if publication.isPrivate %} Pública {%else%} Privada {%endif%}">
+              {% if publication.isPrivate %}
+              <img alt="private-icon" class="p-1" src="{%static '/images/private.svg'%}">
+              {% else %}
+              <img alt="public-icon" class="p-1" src="{%static '/images/public.svg'%}">
+              {% endif %}
+            </button>
+          </form>
 
-          <a style="text-decoration:none" title="Editar Publicación"
+          <a style="text-decoration:none; pointer-events: all;" title="Editar Publicación"
             href="{% url 'apuntes:publication_update' subject=subject.name id=subject.id pk=publication.id%}">
             <img alt="edit-icon" class="p-1" src="{%static '/images/edit.svg'%}">
           </a>
-          <a style="text-decoration:none" title="Borrar Publicación"
+          <a style="text-decoration:none; pointer-events: all;" title="Borrar Publicación"
             href="{% url 'apuntes:publication_delete' subject=subject.name id=subject.id pk=publication.id%}">
             <img alt="delete-icon" class="p-1" src="{%static '/images/delete.svg'%}">
           </a>

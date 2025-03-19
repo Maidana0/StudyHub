@@ -1,3 +1,7 @@
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
 from django.views.generic import DetailView
 from study_hub.forms.comment import CommentForm
 from study_hub.models import Publication
@@ -110,3 +114,13 @@ class AllPublicationsListView(PaginatedListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return _filterPrivatePublications(self.request, queryset)
+
+
+# Cambiar la propiedad isPrivate
+@login_required
+@require_POST
+def change_post_privacy(request, pk):
+    publication = get_object_or_404(Publication, pk=pk, author=request.user)
+    publication.isPrivate = not publication.isPrivate
+    publication.save()
+    return redirect(request.META.get("HTTP_REFERER", "redirect_if_referer_not_found"))

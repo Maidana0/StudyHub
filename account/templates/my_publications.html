@@ -106,13 +106,20 @@
                 {{publication.content|safe}}
             </div>
 
-            <p class="position-absolute button-0 text-start" style="cursor: pointer;">
-                {% if publication.isPrivate %}
-                <span class="badge bg-danger">Privado</span>
-                {% else %}
-                <span class="badge bg-success">Público</span>
-                {% endif %}
-            </p>
+
+            <form method="POST" action="{% url 'apuntes:change_post_privacy' publication.pk %}"
+                class="position-absolute button-0">
+                {% csrf_token %}
+                <button type="submit" style="all:unset; cursor: pointer;"
+                    title="Cambiar a {%if publication.isPrivate %} Pública {%else%} Privada {%endif%}">
+                    {% if publication.isPrivate %}
+                    <span class="badge bg-danger">Privada</span>
+                    {% else %}
+                    <span class="badge bg-success">Pública</span>
+                    {% endif %}
+                </button>
+            </form>
+
             <p class="text-end text-secondary p-2 text-truncate">
                 <small>{{publication.publication_date}}</small>
             </p>

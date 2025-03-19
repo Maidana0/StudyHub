@@ -33,11 +33,11 @@
     <div class="d-flex align-items-center gap-2" style="padding-left: calc(60px + .5rem);">
       <select name="isPrivate" id="id_isPrivate" class="form-select-sm" style="width:200px;">
         <option {% if not form.instance.isPrivate %} selected {% endif %} value="{{False}}">
-          Público <img alt="public-icon" class="ms-1" src="{%static '/images/public.svg'%}">
+          🌍 Público
         </option>
 
         <option {% if form.instance.isPrivate %} selected {% endif %} value="{{True}}">
-          Privado <img alt="private-icon" class="ms-1" src="{%static '/images/private.svg'%}">
+          🔒 Privado
         </option>
       </select>
     </div>

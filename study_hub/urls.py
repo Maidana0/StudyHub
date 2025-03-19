@@ -14,7 +14,6 @@ urlpatterns = [
     path("", study, name="hub"),
     # pagina para ver todas las publicaciones
     path("publicaciones/", AllPublicationsListView.as_view(), name="all_publications"),
-    # pagina para ver las publicaciones de determinada materia (id) de la carrera (title)
     # CAREER REQUESTS
     path("career/", add_career, name="add_career"),
     path("career/delete/<int:pk>", delete_career, name="delete_career"),
@@ -70,5 +69,10 @@ urlpatterns = [
         "<str:subject>/<int:s_id>/<int:p_id>/update/<int:pk>",
         update_comment,
         name="update_comment",
+    ),
+    path(
+        "cambiar-privacidad/publicacion/<int:pk>/",
+        change_post_privacy,
+        name="change_post_privacy",
     ),
 ]
