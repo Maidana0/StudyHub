@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Materias</h2>
+    <a href="{% url 'subject_add' %}" class="btn btn-primary mb-3">Agregar Materia</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in subjects %}
+            <tr>
+                <td>{{ subject.name }}</td>
+                <td>{{ subject.code }}</td>
+                <td>
+                    <a href="{% url 'subject_edit' subject.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'subject_delete' subject.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="{% url 'absence_list' subject.pk %}" class="btn btn-info btn-sm">Asistencias</a>
+                    <a href="{% url 'exam_list' subject.pk %}" class="btn btn-secondary btn-sm">Exámenes</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

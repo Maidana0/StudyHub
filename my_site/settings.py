@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "pages",
     "study_hub",
     "account",
+    "study_manager",
 ]
 
 MIDDLEWARE = [

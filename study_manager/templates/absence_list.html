@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Asistencias en {{ subject.name }}</h2>
+    <a href="{% url 'absence_add' subject.id %}" class="btn btn-primary mb-3">Agregar Asistencia</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Razón</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for absence in absences %}
+            <tr>
+                <td>{{ absence.date }}</td>
+                <td>{{ absence.reason }}</td>
+                <td>
+                    <a href="{% url 'absence_delete' subject.id absence.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
