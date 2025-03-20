@@ -105,11 +105,7 @@ class PublicationDeleteView(LoginRequiredMixin, DeleteViewWithSuccessURL):
 class AllPublicationsListView(PaginatedListView):
     template_name = "all_publications.html"
     paginate_by = 9
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Publicaciones"
-        return context
+    extra_context = {"title": "Publicaciones"}
 
     def get_queryset(self):
         queryset = super().get_queryset()

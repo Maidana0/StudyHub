@@ -35,7 +35,6 @@ class AbsenceForm(forms.ModelForm):
             "date": forms.DateInput(
                 attrs={
                     "class": "form-control shadow-sm",
-                    "placeholder": "Fecha de la falta",
                     "style": "border-radius: 5px; padding: 10px; font-size: 16px;",
                     "type": "date",
                     "value": date.today(),
@@ -44,8 +43,9 @@ class AbsenceForm(forms.ModelForm):
             "reason": forms.TextInput(
                 attrs={
                     "class": "form-control shadow-sm",
-                    "placeholder": "Razón de la falta",
+                    "placeholder": "Razón de la falta (opcional)",
                     "style": "border-radius: 5px; padding: 10px; font-size: 16px;",
+                    "autocomplete": "off",
                 }
             ),
         }
@@ -59,7 +59,6 @@ class ExamForm(forms.ModelForm):
             "date": forms.DateInput(
                 attrs={
                     "class": "form-control shadow-sm",
-                    "placeholder": "Fecha del examen",
                     "style": "border-radius: 5px; padding: 10px; font-size: 16px;",
                     "type": "date",
                 }
@@ -67,18 +66,20 @@ class ExamForm(forms.ModelForm):
             "description": forms.TextInput(
                 attrs={
                     "class": "form-control shadow-sm",
-                    "placeholder": "Descripción del examen",
+                    "placeholder": "Descripción del examen (opcional)",
                     "style": "border-radius: 5px; padding: 10px; font-size: 16px;",
+                    "autocomplete": "off",
                 }
             ),
             "grade": forms.NumberInput(
                 attrs={
                     "class": "form-control shadow-sm",
-                    "placeholder": "Nota del examen",
+                    "placeholder": "Nota del examen (opcional)",
                     "style": "border-radius: 5px; padding: 10px; font-size: 16px;",
                     "min": "0",
                     "max": "10",
                     "step": "0.1",
+                    "autocomplete": "off",
                 }
             ),
         }

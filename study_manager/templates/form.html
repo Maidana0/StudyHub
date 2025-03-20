@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block stylesheet %}
 <style>
     label {
@@ -17,10 +17,25 @@
 </style>
 {% endblock stylesheet%}
 
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+    {{title}}
+</h1>
+
+
+<div class="container">
+    <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
+        <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+        Volver
+    </a>
+</div>
+{% endblock header %}
+
+
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-2">
     <form method="post" class="container col-md-5">
-        <h2 class="mb-4">{% if object %}Editar Materia{% else %}Agregar Materia{% endif %}</h2>
         {% csrf_token %}
         {{ form.as_p }}
 

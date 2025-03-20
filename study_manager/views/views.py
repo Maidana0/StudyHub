@@ -1,5 +1,6 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from study_manager.views.base_views import CourseContext
 from ..models import Course, Absence, Exam
 from ..forms import CourseForm, AbsenceForm, ExamForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,7 +19,7 @@ class CourseListView(LoginRequiredMixin, ListView):
 class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
     form_class = CourseForm
-    template_name = "course_form.html"
+    template_name = "form.html"
     extra_context = {"title": "Agregar Curso"}
     success_url = reverse_lazy("study_manager:course_list")
 
@@ -30,7 +31,7 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
 class CourseUpdateView(LoginRequiredMixin, UpdateView):
     model = Course
     form_class = CourseForm
-    template_name = "course_form.html"
+    template_name = "form.html"
     success_url = reverse_lazy("study_manager:course_list")
     extra_context = {"title": "Editar Curso"}
 
@@ -42,27 +43,24 @@ class CourseDeleteView(LoginRequiredMixin, DeleteView):
     extra_context = {"title": "Eliminar Curso"}
 
 
-class AbsenceListView(LoginRequiredMixin, ListView):
+class AbsenceListView(CourseContext, LoginRequiredMixin, ListView):
     model = Absence
     template_name = "absence_list.html"
     context_object_name = "absences"
+    title = "Faltas"
 
     def get_queryset(self):
-        self.course = Course.objects.get(
-            pk=self.kwargs["course_id"], user=self.request.user
-        )
-        return Absence.objects.filter(course=self.course)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["course"] = self.course
-        return context
+        course = Course.objects.get(pk=self.kwargs["course_id"], user=self.request.user)
+        course = Absence.objects.filter(course=course).order_by("date")
+        self.extra_context = {"quantity": course.__len__()}
+        return course
 
 
-class AbsenceCreateView(LoginRequiredMixin, CreateView):
+class AbsenceCreateView(CourseContext, LoginRequiredMixin, CreateView):
     model = Absence
     form_class = AbsenceForm
-    template_name = "absence_form.html"
+    template_name = "form.html"
+    title = "Anotar Falta"
 
     def form_valid(self, form):
         form.instance.course = Course.objects.get(
@@ -75,15 +73,8 @@ class AbsenceCreateView(LoginRequiredMixin, CreateView):
             "study_manager:absence_list", kwargs={"course_id": self.kwargs["course_id"]}
         )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["course"] = Course.objects.get(
-            pk=self.kwargs["course_id"], user=self.request.user
-        )
-        return context
 
-
-class AbsenceDeleteView(LoginRequiredMixin, DeleteView):
+class AbsenceDeleteView(CourseContext, LoginRequiredMixin, DeleteView):
     model = Absence
     template_name = "absence_confirm_delete.html"
 
@@ -92,35 +83,25 @@ class AbsenceDeleteView(LoginRequiredMixin, DeleteView):
             "study_manager:absence_list", kwargs={"course_id": self.kwargs["course_id"]}
         )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["course"] = Course.objects.get(
-            pk=self.kwargs["course_id"], user=self.request.user
-        )
-        return context
 
-
-class ExamListView(LoginRequiredMixin, ListView):
+class ExamListView(CourseContext, LoginRequiredMixin, ListView):
     model = Exam
     template_name = "exam_list.html"
     context_object_name = "exams"
+    title = "Exámenes"
 
     def get_queryset(self):
         course = Course.objects.get(pk=self.kwargs["course_id"], user=self.request.user)
-        return Exam.objects.filter(course=course)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["course"] = Course.objects.get(
-            pk=self.kwargs["course_id"], user=self.request.user
-        )
-        return context
+        course_exams = Exam.objects.filter(course=course).order_by("date")
+        self.extra_context = {"pending": course_exams.filter(grade=None).count()}
+        return course_exams
 
 
-class ExamCreateView(LoginRequiredMixin, CreateView):
+class ExamCreateView(CourseContext, LoginRequiredMixin, CreateView):
     model = Exam
     form_class = ExamForm
-    template_name = "exam_form.html"
+    template_name = "form.html"
+    title = "Agendar Examen"
 
     def form_valid(self, form):
         form.instance.course = Course.objects.get(
@@ -133,15 +114,8 @@ class ExamCreateView(LoginRequiredMixin, CreateView):
             "study_manager:exam_list", kwargs={"course_id": self.kwargs["course_id"]}
         )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["course"] = Course.objects.get(
-            pk=self.kwargs["course_id"], user=self.request.user
-        )
-        return context
 
-
-class ExamDeleteView(LoginRequiredMixin, DeleteView):
+class ExamDeleteView(CourseContext, LoginRequiredMixin, DeleteView):
     model = Exam
     template_name = "exam_confirm_delete.html"
 
@@ -150,9 +124,20 @@ class ExamDeleteView(LoginRequiredMixin, DeleteView):
             "study_manager:exam_list", kwargs={"course_id": self.kwargs["course_id"]}
         )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["course"] = Course.objects.get(
+
+class ExamUpdateView(CourseContext, LoginRequiredMixin, UpdateView):
+    model = Exam
+    form_class = ExamForm
+    template_name = "form.html"
+    title = "Editar Examen"
+
+    def form_valid(self, form):
+        form.instance.course = Course.objects.get(
             pk=self.kwargs["course_id"], user=self.request.user
         )
-        return context
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "study_manager:exam_list", kwargs={"course_id": self.kwargs["course_id"]}
+        )
