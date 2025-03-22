@@ -29,7 +29,7 @@
 
 {% block content %}
 <div class="container my-2">
-    <h2>Administración de cursos</h2>
+    <h2>Administración de {%if courses%} ({{courses | length}}) {%endif%} cursos</h2>
     <p class="text-center my-4 text-secondary">
         Puedes hacer click en el número de <span class="badge text-bg-warning">faltas</span> o <span
             class="badge text-bg-success">exámenes</span>

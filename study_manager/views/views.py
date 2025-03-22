@@ -83,6 +83,7 @@ class AbsenceCreateView(CourseContext, LoginRequiredMixin, CreateView):
 class AbsenceDeleteView(CourseContext, LoginRequiredMixin, DeleteView):
     model = Absence
     template_name = "absence_confirm_delete.html"
+    extra_context = {"title": "Eliminar Falta"}
 
     def get_success_url(self):
         return reverse_lazy(
@@ -126,6 +127,7 @@ class ExamCreateView(CourseContext, LoginRequiredMixin, CreateView):
 class ExamDeleteView(CourseContext, LoginRequiredMixin, DeleteView):
     model = Exam
     template_name = "exam_confirm_delete.html"
+    extra_context = {"title": "Eliminar Examen"}
 
     def get_success_url(self):
         return reverse_lazy(
