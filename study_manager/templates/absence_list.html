@@ -31,11 +31,11 @@
 <div class="container my-2">
     <h2 class="mt-3 mb-4">Inasistencias:
         <span class="badge bg-warning mb-1 text-dark">
-            {{quantity}}
+            {{absences_count}}
         </span>
     </h2>
 
-    <div class="table-responsive">
+    <div class="table-responsive mx-auto">
         <table class="table table-hover table-warning table-striped align-middle shadow-sm">
             <thead>
                 <tr class="table-dark">
@@ -45,6 +45,7 @@
                 </tr>
             </thead>
             <tbody>
+                {% if absences %}
                 {% for absence in absences %}
                 <tr>
                     <td>{{ absence.date }}</td>
@@ -63,6 +64,11 @@
                     </td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay faltas anotadas.</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

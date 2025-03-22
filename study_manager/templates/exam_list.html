@@ -32,7 +32,7 @@
     <h2 class="mt-3 mb-4">
         Calificaciones pendientes:
         <span class="badge bg-success mb-1">
-            {{pending}}
+            {{pending_exams_count}}
         </span>
     </h2>
 
@@ -47,6 +47,7 @@
                 </tr>
             </thead>
             <tbody>
+                {% if exams %}
                 {% for exam in exams %}
                 <tr>
                     <td>{{ exam.date }}</td>
@@ -81,6 +82,11 @@
                     </td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay exámenes pendientes.</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

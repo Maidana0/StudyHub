@@ -29,8 +29,12 @@
 
 {% block content %}
 <div class="container my-2">
-    <h2 class="mb-4">Administración de cursos</h2>
-
+    <h2>Administración de cursos</h2>
+    <p class="text-center my-4 text-secondary">
+        Puedes hacer click en el número de <span class="badge text-bg-warning">faltas</span> o <span
+            class="badge text-bg-success">exámenes</span>
+        para administrarlos.
+    </p>
     <div class="table-responsive">
 
         <table class="table table-hover table-striped align-middle shadow-sm text-center">
@@ -44,17 +48,30 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
+                {% if courses %}
                 {% for course in courses %}
                 <tr>
                     <td>{{ course.name }}</td>
                     <td>{{ course.schedule }}</td>
                     <td>
-                        <a href="{% url 'study_manager:absence_list' course.pk %}"
-                            class="btn btn-warning btn-sm">Ver</a>
+                        <a href="{% url 'study_manager:absence_list' course.pk %}" style="width:38px"
+                            class="btn btn-warning btn-sm fw-bold">
+                            {%if course.absences_count > 0%}
+                            {{course.absences_count}}
+                            {%else%}
+                            Ver
+                            {%endif%}
+                        </a>
                     </td>
                     <td>
-                        <a href="{% url 'study_manager:exam_list' course.pk %}"
-                            class="btn btn-success btn-sm">Ver</a>
+                        <a href="{% url 'study_manager:exam_list' course.pk %}" style="width:38px"
+                            class="btn btn-success btn-sm fw-bold">
+                            {%if course.pending_exams_count > 0%}
+                            {{course.pending_exams_count}}
+                            {%else%}
+                            Ver
+                            {%endif%}
+                        </a>
                     </td>
                     <td class="col-1">
                         <div class="d-flex justify-content-between gap-1">
@@ -70,6 +87,11 @@
                     </td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay cursos agregados.</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
 

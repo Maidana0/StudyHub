@@ -57,11 +57,12 @@ class ExamForm(forms.ModelForm):
         fields = ["date", "description", "grade"]
         widgets = {
             "date": forms.DateInput(
+                format="%Y-%m-%d",
                 attrs={
                     "class": "form-control shadow-sm",
                     "style": "border-radius: 5px; padding: 10px; font-size: 16px;",
                     "type": "date",
-                }
+                },
             ),
             "description": forms.TextInput(
                 attrs={

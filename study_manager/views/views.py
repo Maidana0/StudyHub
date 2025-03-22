@@ -4,6 +4,7 @@ from study_manager.views.base_views import CourseContext
 from ..models import Course, Absence, Exam
 from ..forms import CourseForm, AbsenceForm, ExamForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
 
 
 class CourseListView(LoginRequiredMixin, ListView):
@@ -13,7 +14,12 @@ class CourseListView(LoginRequiredMixin, ListView):
     extra_context = {"title": "Mis Cursos"}
 
     def get_queryset(self):
-        return Course.objects.filter(user=self.request.user)
+        user_course = Course.objects.filter(user=self.request.user)
+        user_course = user_course.annotate(
+            absences_count=Count("absences"),
+            pending_exams_count=Count("exams", filter=Q(exams__grade=None)),
+        )
+        return user_course
 
 
 class CourseCreateView(LoginRequiredMixin, CreateView):
@@ -52,7 +58,7 @@ class AbsenceListView(CourseContext, LoginRequiredMixin, ListView):
     def get_queryset(self):
         course = Course.objects.get(pk=self.kwargs["course_id"], user=self.request.user)
         course = Absence.objects.filter(course=course).order_by("date")
-        self.extra_context = {"quantity": course.__len__()}
+        self.extra_context = {"absences_count": course.__len__()}
         return course
 
 
@@ -93,7 +99,9 @@ class ExamListView(CourseContext, LoginRequiredMixin, ListView):
     def get_queryset(self):
         course = Course.objects.get(pk=self.kwargs["course_id"], user=self.request.user)
         course_exams = Exam.objects.filter(course=course).order_by("date")
-        self.extra_context = {"pending": course_exams.filter(grade=None).count()}
+        self.extra_context = {
+            "pending_exams_count": course_exams.filter(grade=None).count()
+        }
         return course_exams
 
 
