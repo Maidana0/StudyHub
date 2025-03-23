@@ -11,14 +11,14 @@
 <div class="container d-flex justify-content-between flex-wrap gap-1">
     <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
         style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
-        <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+        <img class="bi" alt="arrow-back" aria-hidden="true" src="{% static '/images/arrow_back.svg' %}">
         Volver
     </a>
 
     <a class="custom-link text-light icon-link link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
         href="{% url 'study_manager:course_add' %}">
 
-        <img class="bi fs-4" alt="add-icon" aria-hidden="true" src="{%static '/images/add.svg'%}">
+        <img class="bi fs-4" alt="add-icon" aria-hidden="true" src="{% static '/images/add.svg' %}">
         Agregar Curso
     </a>
 </div>
@@ -35,91 +35,15 @@
         {% endcomment %}
         <h2>Administración de cursos</h2>
         <button class="btn btn-dark btn-sm d-flex align-items-center gap-1" id="toggle-hidden-courses">
-            <img src="{%static '/images/visibility.svg'%}" alt="eye-icon" class="bi">
-            <img src="{%static '/images/visibility_off.svg'%}" alt="eye-off-icon" class="bi d-none">
+            <img src="{% static '/images/visibility.svg' %}" alt="eye-icon" class="bi">
+            <img src="{% static '/images/visibility_off.svg '%}" alt="eye-off-icon" class="bi d-none">
             <span>Ver</span>materias ocultas
         </button>
     </div>
 
     <div class="table-responsive">
 
-        <table class="table table-hover table-striped align-middle shadow-sm text-center">
-            <thead>
-                <tr class="table-dark">
-                    <th>Nombre</th>
-                    <th>Horario</th>
-                    <th>Faltas</th>
-                    <th>Exámenes</th>
-                    <th class="col-1"></th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                {% if courses %}
-                {% for course in courses %}
-                <tr class="course {%if course.hidden%} d-none table-info {%endif%} course-{{ course.pk }}">
-                    <td>{{ course.name }}</td>
-                    <td>{{ course.schedule }}</td>
-                    <td>
-                        <a href="{% url 'study_manager:absence_list' course.pk %}" style="width:38px"
-                            class="btn btn-warning btn-sm fw-bold">
-                            {%if course.absences_count > 0%}
-                            {{course.absences_count}}
-                            {%else%}
-                            Ver
-                            {%endif%}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'study_manager:exam_list' course.pk %}" style="width:38px"
-                            class="btn btn-success btn-sm fw-bold">
-                            {%if course.pending_exams_count > 0%}
-                            {{course.pending_exams_count}}
-                            {%else%}
-                            Ver
-                            {%endif%}
-                        </a>
-                    </td>
-                    <td class="col-1">
-                        <div class="course-visibility d-none">
-                            <button class="btn btn-dark btn-sm toggle-visibility" data-course-id="{{ course.pk }}"
-                                style="padding: 2px 5px;">
-                                <img src="{%static '/images/visibility_off.svg'%}" alt="eye-off-icon"
-                                    class="bi {%if not course.hidden%} d-none {%endif%}">
-                                <img src="{%static '/images/visibility.svg'%}" alt="eye-icon"
-                                    class="bi {%if course.hidden%} d-none {%endif%}">
-                            </button>
-                        </div>
-
-                        <div class="course-handler d-flex justify-content-between gap-1">
-                            <a style="text-decoration:none; pointer-events: all;" title="Editar Publicación"
-                                href="{% url 'study_manager:course_edit' course.pk %}">
-                                <img alt="edit-icon" src="{%static '/images/edit.svg'%}">
-                            </a>
-                            <a style="text-decoration:none; pointer-events: all;" title="Borrar Publicación"
-                                href="{% url 'study_manager:course_delete' course.pk %}">
-                                <img alt="delete-icon" src="{%static '/images/delete.svg'%}">
-                            </a>
-                        </div>
-
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td class="text-secondary py-3" colspan="5" style="pointer-events: none;">
-                        <small>
-                            Puedes hacer click en el número de <span class="badge text-bg-warning">faltas</span> o <span
-                                class="badge text-bg-success">exámenes</span>
-                            para administrarlos.
-                        </small>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="5" class="py-3">No hay cursos agregados.</td>
-                </tr>
-                {% endif %}
-            </tbody>
-        </table>
+        {% include 'partials/course_table.html' %}
 
         <div class="text-end">
             <button id="see-all-courses" style="all:unset; cursor: pointer;"
@@ -127,8 +51,6 @@
         </div>
 
     </div>
-
-
 </div>
 {% endblock content %}
 
@@ -138,20 +60,21 @@
 <script src="{% static '/study_manager.js' %}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const span = document.getElementById('toggle-hidden-courses').lastElementChild
 
         document.querySelectorAll('.toggle-visibility').forEach((button) => {
             button.addEventListener('click', () => {
                 const courseId = button.getAttribute('data-course-id');
                 const course = document.querySelector(`.course-${courseId}`)
+                const toggleUrl = "{% url 'study_manager:toggle_hidden_course' 123456 %}".replace('123456', courseId);
 
 
-                fetch(`{% url 'study_manager:toggle_hidden_course' 0 %}`.replace('0', courseId), {
+                fetch(toggleUrl, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}',
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
+                    }
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -159,11 +82,14 @@
                             .forEach(icon => {
                                 icon.classList.toggle('d-none')
                             });
-                        if (!data.hidden && course.hasAttribute("style")) {
-                            course.removeAttribute("style");
+
+                        course.classList.toggle('table-info');
+
+
+                        // Solo ocultamos el curso si NO estamos en modo "Ver materias ocultas"
+                        if (span.textContent === 'Ver' && course.classList.contains('table-info')) {
+                            course.classList.toggle('d-none');
                         }
-                        course.classList.toggle('table-info')
-                        course.classList.toggle('d-none')
                     });
             });
         });

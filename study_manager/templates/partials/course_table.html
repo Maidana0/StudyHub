@@ -1,0 +1,78 @@
+{% load static %}
+<table class="table table-hover table-striped align-middle shadow-sm text-center">
+    <thead>
+        <tr class="table-dark">
+            <th>Nombre</th>
+            <th>Horario</th>
+            <th>Faltas</th>
+            <th>Exámenes</th>
+            <th class="col-1"></th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {% if courses %}
+        {% for course in courses %}
+        <tr class="course {%if course.hidden%} d-none table-info {%endif%} course-{{ course.pk }}">
+            <td>{{ course.name }}</td>
+            <td>{{ course.schedule }}</td>
+            <td>
+                <a href="{% url 'study_manager:absence_list' course.pk %}" style="width:38px"
+                    class="btn btn-warning btn-sm fw-bold">
+                    {%if course.absences_count > 0%}
+                    {{course.absences_count}}
+                    {%else%}
+                    Ver
+                    {%endif%}
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'study_manager:exam_list' course.pk %}" style="width:38px"
+                    class="btn btn-success btn-sm fw-bold">
+                    {%if course.pending_exams_count > 0%}
+                    {{course.pending_exams_count}}
+                    {%else%}
+                    Ver
+                    {%endif%}
+                </a>
+            </td>
+            <td class="col-1">
+                <div class="course-visibility d-none">
+                    <button class="btn btn-dark btn-sm toggle-visibility" data-course-id="{{ course.pk }}"
+                        style="padding: 2px 5px;">
+                        <img src="{% static '/images/visibility_off.svg' %}" alt="eye-off-icon"
+                            class="bi {%if not course.hidden%} d-none {%endif%}">
+                        <img src="{% static '/images/visibility.svg' %}" alt="eye-icon"
+                            class="bi {%if course.hidden%} d-none {%endif%}">
+                    </button>
+                </div>
+
+                <div class="course-handler d-flex justify-content-between gap-1">
+                    <a style="text-decoration:none; cursor: pointer;" title="Editar Publicación"
+                        href="{% url 'study_manager:course_edit' course.pk %}">
+                        <img alt="edit-icon" src="{% static '/images/edit.svg' %}">
+                    </a>
+                    <a style="text-decoration:none; cursor: pointer;" title="Borrar Publicación"
+                        href="{% url 'study_manager:course_delete' course.pk %}">
+                        <img alt="delete-icon" src="{% static '/images/delete.svg' %}">
+                    </a>
+                </div>
+
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="text-secondary py-3" colspan="5" style="pointer-events: none;">
+                <small>
+                    Puedes hacer click en el número de <span class="badge text-bg-warning">faltas</span> o <span
+                        class="badge text-bg-success">exámenes</span>
+                    para administrarlos.
+                </small>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="py-3">No hay cursos agregados.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>

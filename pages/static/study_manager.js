@@ -20,14 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         span.textContent = span.textContent === 'Ver' ? 'Ocultar' : 'Ver';
 
-        courses.forEach((hidden_course) => {
-            if (hidden_course.classList.contains('d-none')) {
-                hidden_course.hasAttribute("style")
-                    ? hidden_course.attributes.removeNamedItem("style")
-                    : hidden_course.style = "display: table-row!important"
+        courses.forEach((course) => {
+            if (span.textContent === 'Ocultar') {
+                // Mostramos todas las materias
+                course.classList.remove('d-none');
+                course.style.display = "table-row";
+            } else {
+                // Ocultamos solo las que estaban ocultas originalmente
+                if (course.classList.contains('table-info')) {
+                    course.classList.add('d-none');
+                    course.style.display = "none";
+                }
             }
-        })
-    })
+        });
+    });
 
 
     toggle__all_visibility.addEventListener('click', () => {

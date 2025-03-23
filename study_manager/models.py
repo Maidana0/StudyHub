@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
-    schedule = models.CharField(max_length=100, help_text="Ejemplo: Martes 14a18hs")
+    schedule = models.CharField(
+        max_length=100, help_text="Ejemplo: Martes 14a18hs, Ma14a18, etc."
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="courses")
     hidden = models.BooleanField(default=False)
 
