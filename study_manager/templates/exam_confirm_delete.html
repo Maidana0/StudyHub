@@ -1,13 +1,30 @@
 {% extends 'layout.html' %}
 
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+    {{title}}
+</h1>
+{% endblock header%}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>Eliminar Examen</h2>
-    <p>¿Estás seguro de que deseas eliminar el examen del {{ object.date }}?</p>
+<div class="container w-75 mx-auto">
+    <h4 class="px-1 mx-auto text-center" style="max-width: 450px;">
+        ¿Estás seguro de que deseas eliminar el examen del {{ object.date }}?
+    </h4>
+
+    {% if object.description %}
+    <p class="text-center px-1 my-2">"{{ object.description }}"</p>
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a href="{% url 'exam_list' subject.id %}" class="btn btn-secondary">Cancelar</a>
+
+        <div class="container d-flex flex-column gap-2 align-items-center mt-4">
+            <button type="submit" class="btn btn-danger" style="width: 200px;">Eliminar</button>
+            <a href="{% url 'study_manager:exam_list' course.id %}" class="btn btn-secondary"
+                style="width: 200px;">Cancelar</a>
+        </div>
+
     </form>
 </div>
 {% endblock %}

@@ -1,31 +1,98 @@
 {% extends 'layout.html' %}
+{% load static %}
+
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+    {{title}}
+</h1>
+
+
+<div class="container d-flex justify-content-between flex-wrap gap-1">
+    <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
+        <img class="bi" alt="arrow-back" aria-hidden="true" src="{% static '/images/arrow_back.svg' %}">
+        Volver
+    </a>
+
+    <a class="custom-link text-light icon-link link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        href="{% url 'study_manager:course_add' %}">
+
+        <img class="bi fs-4" alt="add-icon" aria-hidden="true" src="{% static '/images/add.svg' %}">
+        Agregar Curso
+    </a>
+</div>
+
+{% endblock header %}
+
+
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Materias</h2>
-    <a href="{% url 'subject_add' %}" class="btn btn-primary mb-3">Agregar Materia</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Código</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for subject in subjects %}
-            <tr>
-                <td>{{ subject.name }}</td>
-                <td>{{ subject.code }}</td>
-                <td>
-                    <a href="{% url 'subject_edit' subject.pk %}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{% url 'subject_delete' subject.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
-                    <a href="{% url 'absence_list' subject.pk %}" class="btn btn-info btn-sm">Asistencias</a>
-                    <a href="{% url 'exam_list' subject.pk %}" class="btn btn-secondary btn-sm">Exámenes</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 my-4">
+        {% comment %}
+        <!-- {%if courses%} ({{courses | length}}) {%endif%} -->
+        {% endcomment %}
+        <h2>Administración de cursos</h2>
+        <button class="btn btn-dark btn-sm d-flex align-items-center gap-1" id="toggle-hidden-courses">
+            <img src="{% static '/images/visibility.svg' %}" alt="eye-icon" class="bi">
+            <img src="{% static '/images/visibility_off.svg '%}" alt="eye-off-icon" class="bi d-none">
+            <span>Ver</span>materias ocultas
+        </button>
+    </div>
+
+    <div class="table-responsive">
+
+        {% include 'partials/course_table.html' %}
+
+        <div class="text-end">
+            <button id="see-all-courses" style="all:unset; cursor: pointer;"
+                class="text-mutted my-0 p-1"><small>Organizar</small></button>
+        </div>
+
+    </div>
 </div>
-{% endblock %}
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script src="{% static '/study_manager.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const span = document.getElementById('toggle-hidden-courses').lastElementChild
+
+        document.querySelectorAll('.toggle-visibility').forEach((button) => {
+            button.addEventListener('click', () => {
+                const courseId = button.getAttribute('data-course-id');
+                const course = document.querySelector(`.course-${courseId}`)
+                const toggleUrl = "{% url 'study_manager:toggle_hidden_course' 123456 %}".replace('123456', courseId);
+
+
+                fetch(toggleUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        button.querySelectorAll('.bi')
+                            .forEach(icon => {
+                                icon.classList.toggle('d-none')
+                            });
+
+                        course.classList.toggle('table-info');
+
+
+                        // Solo ocultamos el curso si NO estamos en modo "Ver materias ocultas"
+                        if (span.textContent === 'Ver' && course.classList.contains('table-info')) {
+                            course.classList.toggle('d-none');
+                        }
+                    });
+            });
+        });
+    });
+</script>
+{% endblock scripts %}

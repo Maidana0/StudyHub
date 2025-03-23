@@ -1,32 +1,46 @@
 from django.urls import path
-from .views import *
+from .views.views import *
+from .views.course_views import *
 
 app_name = "study_manager"
 
 urlpatterns = [
-    path("cursos/", CourseListView.as_view(), name="course_list"),
-    path("cursos/add/", CourseCreateView.as_view(), name="course_add"),
-    path("cursos/<int:pk>/edit/", CourseUpdateView.as_view(), name="course_edit"),
-    path("cursos/<int:pk>/delete/", CourseDeleteView.as_view(), name="course_delete"),
+    # Cursos
+    path("", CourseListView.as_view(), name="course_list"),
+    path("agregar-curso/", CourseCreateView.as_view(), name="course_add"),
+    path("<int:pk>/editar-curso/", CourseUpdateView.as_view(), name="course_edit"),
+    path("<int:pk>/borrar-curso/", CourseDeleteView.as_view(), name="course_delete"),
     path(
-        "cursos/<int:subject_id>/absences/",
+        "cambiar-visivilidad/<int:pk>",
+        toggle_hidden_course,
+        name="toggle_hidden_course",
+    ),
+    # Faltas / Ausencias
+    path(
+        "<int:course_id>/asistencias/",
         AbsenceListView.as_view(),
         name="absence_list",
     ),
     path(
-        "cursos/<int:subject_id>/absences/add/",
+        "<int:course_id>/asistencias/agregar/",
         AbsenceCreateView.as_view(),
         name="absence_add",
     ),
     path(
-        "cursos/<int:subject_id>/absences/<int:pk>/delete/",
+        "<int:course_id>/asistencias/<int:pk>/borrar/",
         AbsenceDeleteView.as_view(),
         name="absence_delete",
     ),
-    path("cursos/<int:subject_id>/exams/", ExamListView.as_view(), name="exam_list"),
-    path("cursos/<int:subject_id>/exams/add/", ExamCreateView.as_view(), name="exam_add"),
+    # Examenes
+    path("<int:course_id>/examenes/", ExamListView.as_view(), name="exam_list"),
+    path("<int:course_id>/examenes/agregar/", ExamCreateView.as_view(), name="exam_add"),
     path(
-        "cursos/<int:subject_id>/exams/<int:pk>/delete/",
+        "<int:course_id>/examenes/<int:pk>/editar/",
+        ExamUpdateView.as_view(),
+        name="exam_update",
+    ),
+    path(
+        "<int:course_id>/examenes/<int:pk>/borrar/",
         ExamDeleteView.as_view(),
         name="exam_delete",
     ),

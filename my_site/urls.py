@@ -20,6 +20,7 @@ urlpatterns = [
     path("", include("pages.urls")),
     path("apuntes/", include("study_hub.urls")),
     path("cuenta/", include("account.urls")),
+    path("cursos/", include("study_manager.urls")),
     path("tinymce/", include("tinymce.urls")),
 ]
 

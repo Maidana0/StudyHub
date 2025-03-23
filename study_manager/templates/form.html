@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block stylesheet %}
+<style>
+    label {
+        display: none;
+    }
+
+    .helptext {
+        color: var(--bs-secondary);
+        padding-left: 15px;
+    }
+
+    .errorlist {
+        color: darkred;
+    }
+</style>
+{% endblock stylesheet%}
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+    {{title}}
+</h1>
+
+
+<div class="container">
+    <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="javascript:history.back()">
+        <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+        Volver
+    </a>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+<div class="container mt-2">
+    <form method="post" class="container col-md-5">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="d-flex flex-column gap-2 justify-content-center align-items-center mt-4">
+            <button type="submit" class="btn btn-success w-75">Guardar</button>
+            <a href="javascript:history.back()" class="btn btn-secondary w-75">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

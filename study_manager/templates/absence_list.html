@@ -1,28 +1,76 @@
 {% extends 'layout.html' %}
 
+{% load static %}
+
+
+{% block header %}
+<h1 class="text-center w-75 m-auto mb-3 py-2 px-4 bg-dark text-light rounded">
+    {{title}}
+</h1>
+
+
+<div class="container d-flex justify-content-between flex-wrap gap-1">
+    <a class="custom-link text-light icon-link icon-link-hover link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        style="--bs-icon-link-transform: translate3d(-.2rem, 0 , 0);" href="{% url 'study_manager:course_list' %}">
+        <img class="bi" alt="arrow-back" aria-hidden="true" src="{%static '/images/arrow_back.svg'%}">
+        Volver
+    </a>
+
+    <a class="custom-link text-light icon-link link-offset-3 link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+        href="{% url 'study_manager:absence_add' course.id %}">
+
+        <img class="bi fs-4" alt="add-icon" aria-hidden="true" src="{%static '/images/add.svg'%}">
+        Anotar Falta
+    </a>
+</div>
+
+{% endblock header %}
+
+
 {% block content %}
-<div class="container mt-4">
-    <h2>Asistencias en {{ subject.name }}</h2>
-    <a href="{% url 'absence_add' subject.id %}" class="btn btn-primary mb-3">Agregar Asistencia</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Fecha</th>
-                <th>Razón</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for absence in absences %}
-            <tr>
-                <td>{{ absence.date }}</td>
-                <td>{{ absence.reason }}</td>
-                <td>
-                    <a href="{% url 'absence_delete' subject.id absence.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container my-2">
+    <h2 class="mt-3 mb-4">Inasistencias:
+        <span class="badge bg-warning mb-1 text-dark">
+            {{absences_count}}
+        </span>
+    </h2>
+
+    <div class="table-responsive mx-auto">
+        <table class="table table-hover table-warning table-striped align-middle shadow-sm">
+            <thead>
+                <tr class="table-dark">
+                    <th>Fecha</th>
+                    <th>Razón</th>
+                    <th class="col-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if absences %}
+                {% for absence in absences %}
+                <tr>
+                    <td>{{ absence.date }}</td>
+                    <td>
+                        {% if absence.reason %}
+                        {{ absence.reason }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td class="col-1">
+                        <a href="{% url 'study_manager:absence_delete' course.id absence.pk %}"
+                            class="btn btn-danger btn-sm">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">No hay faltas anotadas.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
