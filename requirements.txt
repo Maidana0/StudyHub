@@ -1,6 +1,10 @@
-asgiref==3.7.2
+asgiref==3.8.1
 Django==5.0.2
-pillow==10.2.0
-sqlparse==0.4.4
-tzdata==2024.1
 django-tinymce==3.7.1
+pillow==11.1.0
+python-decouple==3.8
+python-dotenv==1.0.1
+setuptools==76.0.0
+sqlparse==0.5.3
+tzdata==2025.1
+wheel==0.45.1
