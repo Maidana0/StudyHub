@@ -6,6 +6,7 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     schedule = models.CharField(max_length=100, help_text="Ejemplo: Martes 14a18hs")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="courses")
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

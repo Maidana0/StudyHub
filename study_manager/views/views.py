@@ -2,51 +2,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from study_manager.views.base_views import CourseContext
 from ..models import Course, Absence, Exam
-from ..forms import CourseForm, AbsenceForm, ExamForm
+from ..forms import AbsenceForm, ExamForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q
-
-
-class CourseListView(LoginRequiredMixin, ListView):
-    model = Course
-    template_name = "course_list.html"
-    context_object_name = "courses"
-    extra_context = {"title": "Mis Cursos"}
-
-    def get_queryset(self):
-        user_course = Course.objects.filter(user=self.request.user)
-        user_course = user_course.annotate(
-            absences_count=Count("absences"),
-            pending_exams_count=Count("exams", filter=Q(exams__grade=None)),
-        )
-        return user_course
-
-
-class CourseCreateView(LoginRequiredMixin, CreateView):
-    model = Course
-    form_class = CourseForm
-    template_name = "form.html"
-    extra_context = {"title": "Agregar Curso"}
-    success_url = reverse_lazy("study_manager:course_list")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
-class CourseUpdateView(LoginRequiredMixin, UpdateView):
-    model = Course
-    form_class = CourseForm
-    template_name = "form.html"
-    success_url = reverse_lazy("study_manager:course_list")
-    extra_context = {"title": "Editar Curso"}
-
-
-class CourseDeleteView(LoginRequiredMixin, DeleteView):
-    model = Course
-    template_name = "course_confirm_delete.html"
-    success_url = reverse_lazy("study_manager:course_list")
-    extra_context = {"title": "Eliminar Curso"}
 
 
 class AbsenceListView(CourseContext, LoginRequiredMixin, ListView):
