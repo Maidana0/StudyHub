@@ -36,6 +36,27 @@ avatar = ImageField(...)
 user_publications = Publications.objects
 ```
 
+## Nueva Implementación
+- Gestión de Cursos:
+  - Listar cursos del usuario con conteo de ausencias y exámenes pendientes.
+  - Crear, editar y eliminar cursos.
+  - Ocultar o mostrar cursos.
+
+- Gestión de Faltas de cada curso:
+  - Listar faltas de un curso específico.
+  - Crear y eliminar faltas.
+
+- Gestión de Exámenes de cada curso:
+  - Listar exámenes de un curso específico con conteo de exámenes pendientes.
+  - Crear, editar y eliminar exámenes.
+
+
+```
+Course (for each user)
+	Absence
+	Exam
+```
+
 ## Instalación de Dependencias
 _Recomendamos continuar dentro de un entorno virtual._
 
@@ -62,9 +83,16 @@ $ pip install -r requirements.txt
 
 Este comando incluirá los siguientes paquetes. Si lo deseas, puedes instalarlos individualmente.
 
-	Django==5.0.2
-	pillow==10.2.0
-	django-tinymce==3.7.1
+asgiref==3.8.1
+Django==5.0.2
+django-tinymce==3.7.1
+pillow==11.1.0
+python-decouple==3.8
+python-dotenv==1.0.1
+setuptools==76.0.0
+sqlparse==0.5.3
+tzdata==2025.1
+wheel==0.45.1
 
 ## Iniciar Aplicación
 Una vez instaladas las dependencias, deberás ejecutar los siguientes comandos en la consola para iniciar el servidor.
@@ -79,14 +107,21 @@ Con el "runserver" estamos inicializando el servidor en nuestro local host con e
 También, podras acceder desde la siguiente url:
 http://127.0.0.1:8000/
 
-Puedes ver el siguiente video en YouTube para visualizar la navegación y funcionalidades del sitio:
+Puedes ver el siguiente video en YouTube para visualizar la navegación y funcionalidades del sitio (no incluye la última app study_manager):
 https://youtu.be/IKm1dGJ566s  
 
 ------------
+
+## Información para clonar app
+
+Los valores de SECRET_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD en settins.py han sido guardadas como variables de entorno en un archivo .env para mejorar la seguridad de estas. Debes configurarlas para tu proyecto.
+
+Recuerda crear un super user (admin) y realizar las migraciones.
+
 ## Base de Datos
 
 El proyecto en este repositorio, cuenta con una base de datos SQLite3 con algunos datos cargados para facilitar la demostración. Sin embargo puedes borrarla y crear tu propia base de datos.
 
 El usuario administrador en la base de datos cargada es el siguiente:
-	-Usuario:		woldehtes
+	-Usuario:		  woldehtes
 	-Contraseña:	StudyHub
