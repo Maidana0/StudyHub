@@ -26,10 +26,10 @@
                 </a>
             </td>
             <td>
-                <a href="{% url 'study_manager:exam_list' course.pk %}" style="width:38px"
+                <a href="{% url 'study_manager:exam_list' course.pk %}" style="width:56.42px"
                     class="btn btn-success btn-sm fw-bold">
-                    {%if course.pending_exams_count > 0%}
-                    {{course.pending_exams_count}}
+                    {%if course.latest_exam_date%}
+                    {{course.latest_exam_date | date:"d/m"}}
                     {%else%}
                     Ver
                     {%endif%}

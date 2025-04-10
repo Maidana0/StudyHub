@@ -1,13 +1,14 @@
 from django.http import JsonResponse
 from ..forms import CourseForm
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Min
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from ..models import Course
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 
 class CourseListView(LoginRequiredMixin, ListView):
@@ -20,7 +21,10 @@ class CourseListView(LoginRequiredMixin, ListView):
         user_course = Course.objects.filter(user=self.request.user)
         user_course = user_course.annotate(
             absences_count=Count("absences"),
-            pending_exams_count=Count("exams", filter=Q(exams__grade=None)),
+            latest_exam_date=Min(
+                "exams__date",
+                filter=Q(exams__grade=None) & Q(exams__date__gte=timezone.now().date()),
+            ),
         )
         return user_course
 
