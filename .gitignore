@@ -4,3 +4,4 @@ venv
 .txt
 /static
 .env
+prod.db.sqlite3

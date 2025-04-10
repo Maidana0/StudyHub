@@ -114,7 +114,7 @@ https://youtu.be/IKm1dGJ566s
 
 ## Información para clonar app
 
-Los valores de SECRET_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD en settins.py han sido guardadas como variables de entorno en un archivo .env para mejorar la seguridad de estas. Debes configurarlas para tu proyecto.
+Los valores de SECRET_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DATABASE en settins.py han sido guardadas como variables de entorno en un archivo .env para mejorar la seguridad de estas. Debes configurarlas para tu proyecto.
 
 Recuerda crear un super user (admin) y realizar las migraciones.
 
